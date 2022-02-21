@@ -2,6 +2,9 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <el-button>Default</el-button>
+    <el-avatar
+      src="https://cli.vuejs.org"
+    ></el-avatar>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -35,14 +38,14 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ElButton } from 'element-plus';
+import { ElButton, ElAvatar } from 'element-plus';
 
 export default defineComponent({
   name: 'HelloWorld',
   props: {
     msg: String,
   },
-  components: { ElButton },
+  components: { ElButton, ElAvatar },
 });
 </script>
 
