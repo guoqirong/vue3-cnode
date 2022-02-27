@@ -24,12 +24,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
-import { ElLink, ElBadge } from 'element-plus'
-import { useStore } from 'vuex'
+import { defineComponent, computed } from 'vue';
+import { ElLink, ElBadge } from 'element-plus';
+import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
+  name: 'HeaderComp',
   components: { ElLink, ElBadge },
   setup() {
     const { state } = useStore();

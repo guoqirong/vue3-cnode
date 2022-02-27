@@ -1,0 +1,36 @@
+.content-body {
+  width: 90%;
+  margin: 10px auto;
+  @media only screen and (max-width: 950px) {
+    .lift-content {
+      z-index: 16;
+      width: 100%!important;
+    }
+    .right-content {
+      visibility: hidden!important;
+      width: 0px!important;
+    }
+  } 
+  .lift-content {
+    float: left;
+    width: calc(100% - 300px);
+    .box-card {
+      margin-bottom: 10px;
+      .el-card__body {
+        padding-top: 0px;
+        .el-tabs__header {
+          margin: 8px;
+          margin-bottom: 0;
+        }
+        .pagination {
+          margin-top: 10px;
+          white-space: normal;
+        }
+      }
+    }
+  }
+  .right-content {
+    float: right;
+    width: 290px;
+  }
+}
