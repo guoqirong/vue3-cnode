@@ -1,11 +1,10 @@
 <template>
-  <div>
   <div class="content-body">
     <div class="lift-content">
       <el-card class="box-card">
         <el-tabs v-model="activeTypeName" class="demo-tabs" @tab-click="handleTabClick">
           <el-tab-pane v-for="(item, i) in topicTypeList" :key="i" :label="item.name" :name="item.key"></el-tab-pane>
-          <list-comp :listData="listData"/>
+          <list-comp :key="listData" :listData="listData"/>
           <el-pagination
             class="pagination"
             @size-change="handleSizeChange"
@@ -20,7 +19,6 @@
         </el-tabs>
       </el-card>
     </div>
-  </div>
   </div>
 </template>
 
@@ -54,11 +52,11 @@ export default defineComponent({
           mdrender: false,
           ...data
         }
-      }).then(({ data }) => {
-        if (data?.success) {
-          listData.value = data.data;
+      }).then((res: any) => {
+        if (res?.data?.success) {
+          listData.value = res?.data.data;
         }
-      }).catch(e => {
+      }).catch((e: any) => {
         console.error(e);
       })
     };

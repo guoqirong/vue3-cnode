@@ -5,6 +5,7 @@ declare global {
   const ElCard: typeof import('element-plus/es')['ElCard']
   const ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
   const ElLink: typeof import('element-plus/es')['ElLink']
+  const ElLoadingDirective: typeof import('element-plus/es')['ElLoadingDirective']
   const ElPagination: typeof import('element-plus/es')['ElPagination']
   const ElTabPane: typeof import('element-plus/es')['ElTabPane']
   const ElTabs: typeof import('element-plus/es')['ElTabs']

@@ -13,6 +13,8 @@ declare module 'vue' {
     ElTabs: typeof import('element-plus/es')['ElTabs']
     Footer: typeof import('./src/components/footer/index.vue')['default']
     Header: typeof import('./src/components/header/index.vue')['default']
+    List: typeof import('./src/components/list/index.vue')['default']
+    Loading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }
 
