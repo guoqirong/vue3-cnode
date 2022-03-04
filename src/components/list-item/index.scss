@@ -1,0 +1,51 @@
+.item-body {
+  height: 50px;
+  border-bottom: 1px solid #f0f0f0;
+  .user-img {
+    margin: 10px;
+    margin-right: 0px;
+    width: 30px;
+    height: 30px;
+    float: left;
+  }
+  .reply-count,.topic-tab,.topic-title,.created-time {
+    height: 50px;
+    margin-top: -2px;
+    line-height: 50px;
+    float: left;
+  }
+  .reply-count {
+    width: 80px;
+    font-size: 12px;
+    text-align: center;
+    .count-of-replies {
+      color: #9e78c0;
+    }
+    .count-of-visits {
+      color: #b4b4b4;
+    }
+  }
+  .topic-tab {
+    width: 80px;
+  }
+  .topic-title {
+    width: calc(100% - 40px - 80px - 90px - 90px);
+    padding-left: 10px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .created-time {
+    width: 80px;
+    text-align: right;
+    margin-right: 10px;
+    font-size: 14px;
+    color: #b4b4b4;
+  }
+  clear: both;
+}
+.item-body:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}

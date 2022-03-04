@@ -4,6 +4,7 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBadge: typeof import('element-plus/es')['ElBadge']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
@@ -11,10 +12,11 @@ declare module 'vue' {
     ElPagination: typeof import('element-plus/es')['ElPagination']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
+    ElTag: typeof import('element-plus/es')['ElTag']
     Footer: typeof import('./src/components/footer/index.vue')['default']
     Header: typeof import('./src/components/header/index.vue')['default']
     List: typeof import('./src/components/list/index.vue')['default']
-    Loading: typeof import('element-plus/es')['ElLoadingDirective']
+    ListItem: typeof import('./src/components/list-item/index.vue')['default']
   }
 }
 
