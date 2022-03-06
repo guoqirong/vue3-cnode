@@ -27,19 +27,37 @@
       :style="{
         'width': !itemData.top && itemData.tab === 'dev' ? '' : 'calc(100% - 40px - 42px - 90px - 90px)'
       }"
-    >{{itemData.title}}</div>
+      v-html="itemData.title"
+    ></div>
     <div class="created-time">{{formatDate(itemData.create_at, 'yyyy-MM-dd')}}</div>
   </div>
 </template>
 
 <script lang="ts">
 import { formatDate, getTopicTab } from '@/utils'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
+export interface topicListItemType {
+  id: string;
+  author_id:string;
+  tab: string
+  content: string;
+  title: string;
+  last_reply_at: string;
+  good: boolean;
+  top: boolean;
+  reply_count: number;
+  visit_count: number;
+  create_at: string;
+  author: {
+    loginname: string;
+    avatar_url: string;
+  }
+}
 
 export default defineComponent({
   props: {
     // 列表项数据
-    itemData: Object
+    itemData: Object as PropType<topicListItemType>
   },
   setup(props) {
     return {

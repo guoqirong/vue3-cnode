@@ -2,9 +2,22 @@
   <div class="content-body">
     <div class="lift-content">
       <el-card class="box-card">
-        <el-tabs v-model="activeTypeName" class="demo-tabs" @tab-click="handleTabClick">
-          <el-tab-pane v-for="(item, i) in topicTypeList" :key="i" :label="item.name" :name="item.key"></el-tab-pane>
-          <list-comp :key="listData" :listData="listData"/>
+        <el-tabs
+          v-model="activeTypeName"
+          class="demo-tabs"
+          @tab-click="handleTabClick">
+          <el-tab-pane
+            v-for="(item, i) in topicTypeList"
+            :key="i"
+            :label="item.name"
+            :name="item.key"
+          ></el-tab-pane>
+          <list-comp
+            :isLoading="isLoading"
+            :limit="limit"
+            :listData="listData"
+            @seeDetail="seeDetail"
+          />
           <el-pagination
             class="pagination"
             @size-change="handleSizeChange"
@@ -19,15 +32,25 @@
         </el-tabs>
       </el-card>
     </div>
+    <div class="right-content">
+      <user-info-comp />
+      <client-qr-code-comp />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import useHttpRequest from '@/utils/request'
+import useHttpRequest, { resDataType } from '@/utils/request';
 import { ElCard, ElTabPane, ElTabs } from 'element-plus';
-import { defineComponent, ref } from 'vue'
-import ListComp from '@/components/list/index.vue'
-import { topicTypeList } from '@/constant'
+import { defineComponent, ref } from 'vue';
+import ListComp from '@/components/list/index.vue';
+import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
+import UserInfoComp from '@/components/user-info/index.vue';
+import { topicTypeList } from '@/constant';
+import { AxiosResponse } from 'axios';
+import { topicListItemType } from '@/components/list-item/index.vue';
+import { useRouter } from 'vue-router';
+
 interface getTopicListType {
   page?: number;
   tab?: string;
@@ -36,11 +59,19 @@ interface getTopicListType {
 }
 
 export default defineComponent({
-  components: { ElCard, ElTabs, ElTabPane, ListComp },
+  components: {
+    ElCard,
+    ElTabs,
+    ElTabPane,
+    ListComp,
+    ClientQrCodeComp,
+    UserInfoComp
+  },
   setup() {
+    const router = useRouter();
     // 列表数据获取
-    const { adornUrl, httpRequest } = useHttpRequest();
-    const listData = ref([]);
+    const { isLoading, adornUrl, httpRequest } = useHttpRequest();
+    const listData = ref<topicListItemType[]>([]);
     const getTopicList = (data: getTopicListType) => {
       httpRequest({
         url: adornUrl('/api/v1/topics'),
@@ -52,15 +83,15 @@ export default defineComponent({
           mdrender: false,
           ...data
         }
-      }).then((res: any) => {
+      }).then((res: AxiosResponse<resDataType<topicListItemType[]>>) => {
         if (res?.data?.success) {
-          listData.value = res?.data.data;
+          listData.value = res?.data.data ?? [];
         }
-      }).catch((e: any) => {
+      }).catch((e: unknown) => {
         console.error(e);
       })
     };
-    
+
     // 类型tab选中态及点击事件
     const activeTypeName = ref('all');
     const handleTabClick = (tab: { paneName: string; }) => {
@@ -91,11 +122,24 @@ export default defineComponent({
     // 初始化获取数据
     getTopicList({});
 
+    // 查看详情
+    const seeDetail = (id: string) => {
+      router.push({
+        path: `/detail`,
+        query: {
+          id: id,
+          key: activeTypeName.value
+        }
+      })
+    }
+
     return {
       topicTypeList,
+      isLoading,
       listData,
       activeTypeName,
       handleTabClick,
+      seeDetail,
       page,
       limit,
       handleCurrentChange,

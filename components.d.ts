@@ -4,12 +4,20 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ClientQrCode: typeof import('./src/components/client-qr-code/index.vue')['default']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBadge: typeof import('element-plus/es')['ElBadge']
+    ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
+    ElForm: typeof import('element-plus/es')['ElForm']
+    ElFormItem: typeof import('element-plus/es')['ElFormItem']
+    ElImage: typeof import('element-plus/es')['ElImage']
+    ElInput: typeof import('element-plus/es')['ElInput']
     ElLink: typeof import('element-plus/es')['ElLink']
     ElPagination: typeof import('element-plus/es')['ElPagination']
+    ElSkeleton: typeof import('element-plus/es')['ElSkeleton']
+    ElSkeletonItem: typeof import('element-plus/es')['ElSkeletonItem']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTag: typeof import('element-plus/es')['ElTag']
@@ -17,6 +25,7 @@ declare module 'vue' {
     Header: typeof import('./src/components/header/index.vue')['default']
     List: typeof import('./src/components/list/index.vue')['default']
     ListItem: typeof import('./src/components/list-item/index.vue')['default']
+    UserInfo: typeof import('./src/components/user-info/index.vue')['default']
   }
 }
 

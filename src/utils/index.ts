@@ -1,7 +1,10 @@
+import { topicTypeList } from "@/constant"
+
 /**
  * 日期格式化 gqr
- * @param {*} dateStr
- * @param {*} fmt
+ * @param {*} dateStr 日期字符串
+ * @param {*} fmt 日期格式
+ * @returns 格式化后的日期
  */
  export const formatDate = (dateStr: string, fmt: string): string => {
   const date = new Date(dateStr)
@@ -34,20 +37,29 @@ const padLeftZero = (str: string) => {
   return ('00' + str).substr(str.length)
 }
 
+/**
+ * 获取置顶及话题类型
+ * @param isTop 是否置顶
+ * @param tab 类型标识
+ * @returns 类型名称
+ */
 export const getTopicTab = (isTop: boolean, tab: string): string => {
   if (isTop) return '置顶';
-  switch (tab) {
-    case 'good':
-      return '精华';
-    case 'share':
-      return '分享';
-    case 'ask':
-      return '问答';
-    case 'job':
-      return '招聘';
-    case 'dev':
-      return '客户端测试';
-    default:
-      return '全部';
+  return topicTypeList.find(item => item.key === tab)?.name ?? '';
+}
+
+/**
+ * 生成从minNum到maxNum的随机数
+ * @param minNum 最小值
+ * @param maxNum 最大值
+ * @returns 随机数
+ */
+export const randomNum = (minNum: number,maxNum?: number): number => {
+  if (minNum !== undefined && maxNum !== undefined) {
+    return parseInt(String(Math.random() * (maxNum - minNum + 1) + minNum), 10);
+  } else if (minNum !== undefined) {
+    return parseInt(String(Math.random() * minNum + 1), 10);
+  } else {
+    return 0;
   }
 }

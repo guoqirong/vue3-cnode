@@ -7,6 +7,11 @@ interface httpRequestType {
   httpRequest: AxiosInstance;
 }
 
+export interface resDataType<T> {
+  success: boolean;
+  data?: T;
+}
+
 const useHttpRequest = (): httpRequestType => {
   const isLoading = ref<boolean>(false);
 

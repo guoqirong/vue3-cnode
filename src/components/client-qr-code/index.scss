@@ -1,0 +1,38 @@
+
+.box-card {
+  .not-login {
+    .describe {
+      margin-top: 20px;
+      font-size: 14px;
+      .not-bottom {
+        display: inline-block;
+        height: 20px;
+        line-height: 20px;
+      }
+      .el-link {
+        margin-top: -3px;
+      }
+    }
+  }
+  .el-card__header {
+    padding: 8px 20px;
+    padding-bottom: 0;
+    .card-title {
+      height: 40px;
+      line-height: 40px;
+      font-size: 14px;
+    }
+  }
+  .qr-image {
+    width: 248px;
+    height: 248px;
+  }
+  .client-box {
+    width: 100%;
+    .el-link {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+    }
+  }
+}

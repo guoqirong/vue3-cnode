@@ -1,0 +1,51 @@
+.login-body {
+  height: calc(100vh - 50px - 82px - 40px);
+  width: 90%;
+  position: relative;
+  margin: 0 auto;
+  background: url('~@/assets/images/login-bg.jpeg') no-repeat;
+  padding: 20px 0;
+  background-size: 70% auto;
+  background-position: 0 center;
+  .login-slogan {
+    display: inline-block;
+    font-size: 24px;
+    padding: 30px;
+  }
+  
+  .box-card {
+    margin-bottom: 10px;
+    height: 300px;
+    width: 28%;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -150px;
+    .el-card__header {
+      padding: 8px 20px;
+      padding-bottom: 0;
+      .login-title {
+        height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+      }
+    }
+    .el-card__body {
+      .login-form {
+        min-width: 200px;
+        margin: 20px auto;
+        .login-btn,.cencel-btn {
+          width: 100%;
+        }
+        .login-btn {
+          margin-top: 40px;
+        }
+        .cencel-btn {
+          margin-top: 20px;
+          margin-left: 0;
+
+        }
+      }
+    }
+  }
+}
