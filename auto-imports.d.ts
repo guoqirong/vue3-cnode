@@ -11,6 +11,7 @@ declare global {
   const ElImage: typeof import('element-plus/es')['ElImage']
   const ElInput: typeof import('element-plus/es')['ElInput']
   const ElLink: typeof import('element-plus/es')['ElLink']
+  const ElPageHeader: typeof import('element-plus/es')['ElPageHeader']
   const ElPagination: typeof import('element-plus/es')['ElPagination']
   const ElSkeleton: typeof import('element-plus/es')['ElSkeleton']
   const ElSkeletonItem: typeof import('element-plus/es')['ElSkeletonItem']

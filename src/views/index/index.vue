@@ -43,12 +43,12 @@
 import useHttpRequest, { resDataType } from '@/utils/request';
 import { ElCard, ElTabPane, ElTabs } from 'element-plus';
 import { defineComponent, ref } from 'vue';
+import { topicListItemType } from '@/components/list-item/index.vue';
 import ListComp from '@/components/list/index.vue';
 import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
 import UserInfoComp from '@/components/user-info/index.vue';
 import { topicTypeList } from '@/constant';
 import { AxiosResponse } from 'axios';
-import { topicListItemType } from '@/components/list-item/index.vue';
 import { useRouter } from 'vue-router';
 
 interface getTopicListType {

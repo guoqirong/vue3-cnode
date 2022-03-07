@@ -19,7 +19,7 @@
     class="box-card"
     v-if="token">
     <template #header>
-      <span class="card-title">个人信息</span>
+      <span class="card-title">{{title}}</span>
     </template>
     <el-skeleton :loading="loading" animated>
       <template #template>
@@ -40,7 +40,7 @@
             ></el-avatar>
           </div>
           <div class="user-name">{{userData.loginname || ''}}</div>
-          <div class="user-score">积分：{{userData.score || ''}}</div>
+          <div v-if="userData.score" class="user-score">积分：{{userData.score || ''}}</div>
         </div>
       </template>
     </el-skeleton>
@@ -92,7 +92,17 @@ import { useStore } from 'vuex';
 export default defineComponent({
   name: 'UserInfoComp',
   components: { ElSkeleton, ElSkeletonItem },
-  setup() {
+  props: {
+    title: {
+      type: String,
+      default: '个人信息'
+    },
+    authorData: {
+      type: Object,
+      default: undefined,
+    }
+  },
+  setup(props) {
     const { state } = useStore();
     const route = useRoute();
     const router = useRouter();
@@ -109,7 +119,7 @@ export default defineComponent({
 
     // 个人信息
     const userData = computed(() => {
-      return state.user.userData;
+      return props.authorData ?? state.user.userData;
     });
     
     // 前往登录页
