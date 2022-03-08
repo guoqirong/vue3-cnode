@@ -63,3 +63,8 @@ export const randomNum = (minNum: number,maxNum?: number): number => {
     return 0;
   }
 }
+
+export const changeLtGt = (content: string) => {
+  const str = content.replace(/&lt;/g, '<');
+  return str.replace(/&gt;/g, '>');
+};

@@ -70,11 +70,8 @@ export default defineComponent({
   color: #2c3e50;
   min-height: 100%;
 }
-* {
-  margin: 0;
-  padding: 0;
-}
 html, body {
   height: 100%;
+  margin: 0;
 }
 </style>

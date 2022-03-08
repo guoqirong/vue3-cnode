@@ -1,7 +1,7 @@
 <template>
   <el-card
     class="box-card"
-    v-if="!token">
+    v-if="!(token || authorData)">
     <span class="not-login">
       <div class="title">
         CNode：Node.js专业中文社区 
@@ -17,7 +17,7 @@
   </el-card>
   <el-card
     class="box-card"
-    v-if="token">
+    v-if="token || authorData">
     <template #header>
       <span class="card-title">{{title}}</span>
     </template>

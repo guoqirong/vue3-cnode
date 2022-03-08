@@ -128,7 +128,7 @@ export default defineComponent({
         path: `/detail`,
         query: {
           id: id,
-          key: activeTypeName.value
+          listParm: `${activeTypeName.value}|${page.value}|${limit.value}`
         }
       })
     }

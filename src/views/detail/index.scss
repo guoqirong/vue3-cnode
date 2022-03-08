@@ -69,8 +69,15 @@
                 width: 40px;
                 float: right;
               }
-              .topic-content {
-                clear: both;
+            }
+            .topic-content {
+              clear: both;
+              img  {
+                width: 100%;
+              }
+              p {
+                word-wrap: break-word;
+                word-break: break-all;
               }
             }
           }
