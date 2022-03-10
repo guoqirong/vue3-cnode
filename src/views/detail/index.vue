@@ -15,38 +15,53 @@
               <div
               class="topic-title-tab"
               :style="{
-                width: !topic.top && topic.tab === 'dev' ? '' : '40px'
+                width: !topic?.top && topic?.tab === 'dev' ? '' : '50px'
               }">
-                <el-tag effect="dark" :type="topic.top ? 'danger' : 'success'">
-                  {{getTopicTab(topic.top, topic.tab)}}
+                <el-tag effect="dark" :type="topic?.top ? 'danger' : 'success'">
+                  {{getTopicTab(topic?.top, topic?.tab)}}
                 </el-tag>
               </div>
-              <div class="title-name" :style="{'width': !topic.top && topic.tab === 'dev' ? '' : 'calc(100% - 40px)'}">{{topic.title}}</div>
-              <div class="topic-title-desc">{{'● ' +formatDate((topic.create_at || ''), 'yyyy-MM-dd') + ' ● ' + (topic.author && topic.author.loginname ? topic.author.loginname : '')}}</div>
+              <div
+                class="title-name"
+                :style="{
+                  'width': !topic?.top && topic?.tab === 'dev' ? '' : 'calc(100% - 50px)'
+                }"
+              >{{topic?.title}}</div>
+              <div class="topic-title-desc">
+                <span>{{'● ' + formatDate((topic?.create_at || ''), 'yyyy-MM-dd')}}</span>
+                <span>{{'● ' + (topic?.author && topic?.author.loginname ? topic?.author.loginname : '')}}</span>
+              </div>
             </div>
             <div class="title-right">
-              <el-button @click="collectClick" type="warning" :icon="topic.is_collect ? 'el-icon-star-on' : 'el-icon-star-off'" circle plain size="small"></el-button>
+              <el-button
+                circle
+                plain
+                size="large"
+                type="warning"
+                :icon="topic?.is_collect ? Star : StarFilled"
+                @click="collectClick"
+              ></el-button>
             </div>
           </div>
-          <div class="topic-content" v-html="topic.content"></div>
+          <div class="topic-content" v-html="topic?.content"></div>
         </span>
       </el-card>
-      <el-card class="box-card" v-if="topic.replies && topic.replies.length > 0">
+      <el-card class="box-card" v-if="topic?.replies && topic.replies?.length > 0">
         <template #header>
           <span class="card-replies-title">回复</span>
         </template>
-        <div v-for="(item, i) in topic.replies" :key="i" class="replie-item">
+        <div v-for="(item, i) in topic?.replies" :key="i" class="replie-item">
           <div class="replie-user-img">
             <el-avatar shape="square" :size="40" :src="item.author.avatar_url"></el-avatar>
           </div>
           <div class="replie-title">{{item.author.loginname + '回复了您的话题'}}</div>
           <div class="replie-desc">{{formatDate(item.create_at, 'yyyy-MM-dd')}}</div>
-          <div class="replie-content" v-html="item.content"></div>
+          <div class="replie-content" v-html="item?.content"></div>
         </div>
       </el-card>
     </div>
     <div class="right-content">
-      <user-info-comp title="作者" :authorData="topic.author" />
+      <user-info-comp title="作者" :authorData="topic?.author" />
       <client-qr-code-comp />
     </div>
   </div>
@@ -59,7 +74,8 @@ import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
 import useHttpRequest from '@/utils/request';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { ElMessage } from 'element-plus';
+import { ElAvatar, ElButton, ElCard, ElMessage, ElPageHeader } from 'element-plus';
+import { Star, StarFilled } from '@element-plus/icons-vue'
 import { changeLtGt, formatDate, getTopicTab } from '@/utils';
 
 interface authorType {
@@ -95,7 +111,7 @@ interface topicDetailType {
 }
 
 export default defineComponent({
-  components: { UserInfoComp, ClientQrCodeComp },
+  components: { ElCard, ElPageHeader, ElButton, ElAvatar, UserInfoComp, ClientQrCodeComp },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -127,15 +143,17 @@ export default defineComponent({
 
     const goBack = () => {
       router.push({
-        path: `/`,
-        query: {
-          listParm: route.query.listParm
+        name: 'index',
+        params: {
+          listParm: String(route.query.listParm)
         }
       })
     };
 
     return {
       topic,
+      Star,
+      StarFilled,
       formatDate,
       getTopicTab,
       goBack,

@@ -4,6 +4,7 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ClientQrCode: typeof import('./src/components/client-qr-code/index.vue')['default']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBadge: typeof import('element-plus/es')['ElBadge']
     ElButton: typeof import('element-plus/es')['ElButton']
@@ -25,6 +26,7 @@ declare module 'vue' {
     Header: typeof import('./src/components/header/index.vue')['default']
     List: typeof import('./src/components/list/index.vue')['default']
     ListItem: typeof import('./src/components/list-item/index.vue')['default']
+    UserInfo: typeof import('./src/components/user-info/index.vue')['default']
   }
 }
 

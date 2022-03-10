@@ -49,7 +49,7 @@ import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
 import UserInfoComp from '@/components/user-info/index.vue';
 import { topicTypeList } from '@/constant';
 import { AxiosResponse } from 'axios';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 interface getTopicListType {
   page?: number;
@@ -68,6 +68,7 @@ export default defineComponent({
     UserInfoComp
   },
   setup() {
+    const route = useRoute();
     const router = useRouter();
     // 列表数据获取
     const { isLoading, adornUrl, httpRequest } = useHttpRequest();
@@ -119,7 +120,14 @@ export default defineComponent({
       });
     };
 
-    // 初始化获取数据
+    // 初始化获取数据、根据路由修改tab、页码及页面显示条数
+    const [tab, pageNum, limitNum] = String(route.params.listParm).split('|') ?? [];
+    if (tab && pageNum && limitNum) {
+      activeTypeName.value = tab;
+      page.value = Number(pageNum);
+      limit.value = Number(limitNum);
+    }
+    console.log(tab, pageNum, limitNum);
     getTopicList({});
 
     // 查看详情
