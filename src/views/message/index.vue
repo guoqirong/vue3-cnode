@@ -1,13 +1,182 @@
 <template>
-  <div>massage</div>
+  <div class="my-message">
+    <!-- 左侧内容 -->
+    <div class="lift-content">
+      <el-card class="box-card">
+        <template #header>
+          <span class="card-title">未读信息</span>
+          <el-button class="all-read" @click="readAll">全部已读</el-button>
+        </template>
+        <div>
+          <span v-if="message && message.hasnot_read_messages && message.hasnot_read_messages.length > 0">
+            <div v-for="(item, i) in message.hasnot_read_messages" :key="i" class="notread-item">
+              <div class="user-img">
+                <el-avatar
+                  shape="square"
+                  :size="40"
+                  :src="item.author.avatar_url"
+                  :key="item.author.avatar_url"
+                  :alt="item.author.loginname"
+                ></el-avatar>
+              </div>
+              <div class="read-messages-title">
+                <div class="title">{{item.author.loginname + '回复了您的话题'}}</div>
+                <div class="desc">{{formatDate(item.create_at, 'yyyy-MM-dd')}}</div>
+              </div>
+              <div class="read-btn"><el-button @click="readOne(item.id)">已读</el-button></div>
+              <div class="reply-content" v-html="item.reply.content"></div>
+              <div class="topic-title">话题：{{item.topic.title}}</div>
+            </div>
+          </span>
+          <div v-else class="is-notdata">暂无数据</div>
+        </div>
+      </el-card>
+      <el-card class="box-card">
+        <template #header>
+          <span class="card-title">已读信息</span>
+        </template>
+        <div>
+          <span v-if="message && message.has_read_messages && message.has_read_messages.length > 0">
+            <div v-for="(item, i) in message.has_read_messages" :key="i" class="read-item">
+              <div class="user-img">
+                <el-avatar
+                  shape="square"
+                  :size="40"
+                  :src="item.author.avatar_url"
+                  :key="item.author.avatar_url"
+                  :alt="item.author.loginname"
+                ></el-avatar>
+              </div>
+              <div class="read-messages-title">
+                <div class="title">{{item.author.loginname + '回复了您的话题'}}</div>
+                <div class="desc">{{formatDate(item.create_at, 'yyyy-MM-dd')}}</div>
+              </div>
+              <div class="reply-content" v-html="item.reply.content"></div>
+              <div class="topic-title">话题：{{item.topic.title}}</div>
+            </div>
+          </span>
+          <div v-else class="is-notdata">暂无数据</div>
+        </div>
+      </el-card>
+    </div>
+    <!-- 右侧内容 -->
+    <div class="right-content">
+      <user-info-comp />
+      <client-qr-code-comp />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue';
+import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
+import UserInfoComp from '@/components/user-info/index.vue';
+import useHttpRequest from '@/utils/request';
+import { useStore } from 'vuex';
+import { ElMessage } from 'element-plus';
+import { authorType } from '../detail/index.vue';
+import { formatDate } from '@/utils';
+
+interface replyType {
+  content: string;
+  create_at: string;
+  id: string;
+  ups: string[];
+}
+
+interface topicType {
+  id: string;
+  last_reply_at: string;
+  title: string;
+}
+
+interface messagesItemType {
+  author: authorType;
+  create_at: string;
+  has_read: boolean;
+  id: string;
+  reply: replyType;
+  topic: topicType;
+  type: string;
+}
+
+interface messagesType {
+  has_read_messages: messagesItemType[];
+  hasnot_read_messages: messagesItemType[];
+}
 
 export default defineComponent({
+  components: {
+    ClientQrCodeComp,
+    UserInfoComp
+  },
   setup() {
-    console.log('massage')
+    const { state } = useStore();
+
+    // 登录标识
+    const token = computed(() => {
+      return state.user.token;
+    });
+
+    // 列表数据获取
+    const { isLoading, adornUrl, httpRequest } = useHttpRequest();
+    const message = ref<messagesType>();
+    const getData = () => {
+      if (token.value) {
+        httpRequest ({
+          url: adornUrl(`/api/v1/messages`),
+          method: 'get',
+          params: {
+            accesstoken: token.value,
+            mdrender: true
+          }
+        }).then(({data}) => {
+          message.value = data.data;
+        }).catch(e => {
+          ElMessage.error('请求失败');
+          console.error(e);
+        })
+      }
+    };
+    getData();
+
+    // 标记消息已读
+    const { httpRequest: readHttpRequest } = useHttpRequest();
+    const readAll = () => {
+      readHttpRequest({
+        url: adornUrl(`/api/v1/message/mark_all`),
+        method: 'post',
+        params: {
+          accesstoken: token
+        }
+      }).then(() => {
+        location.reload()
+      }).catch(e => {
+        ElMessage.error('请求失败');
+        console.error(e)
+      })
+    };
+    const readOne = (id: string) => {
+      readHttpRequest({
+        url: adornUrl(`/api/v1/message/mark_one/${id}`),
+        method: 'post',
+        params: {
+          accesstoken: token
+        }
+      }).then(() => {
+        location.reload()
+      }).catch(e => {
+        ElMessage.error('请求失败');
+        console.error(e)
+      })
+    };
+
+    return {
+      message,
+      readAll,
+      readOne,
+      formatDate,
+    }
   },
 })
 </script>

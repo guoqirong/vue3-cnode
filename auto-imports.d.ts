@@ -13,6 +13,7 @@ declare global {
   const ElLink: typeof import('element-plus/es')['ElLink']
   const ElPageHeader: typeof import('element-plus/es')['ElPageHeader']
   const ElPagination: typeof import('element-plus/es')['ElPagination']
+  const ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
   const ElSkeleton: typeof import('element-plus/es')['ElSkeleton']
   const ElSkeletonItem: typeof import('element-plus/es')['ElSkeletonItem']
   const ElTabPane: typeof import('element-plus/es')['ElTabPane']

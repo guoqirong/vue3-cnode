@@ -100,7 +100,8 @@ export default defineComponent({
     authorData: {
       type: Object,
       default: undefined,
-    }
+    },
+    authorLoading: Boolean,
   },
   setup(props) {
     const { state } = useStore();
@@ -114,7 +115,7 @@ export default defineComponent({
     
     // 用户数据加载中
     const loading = computed(() => {
-      return state.user.isLoading;
+      return props.authorLoading ?? state.user.isLoading;
     });
 
     // 个人信息

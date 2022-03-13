@@ -1,6 +1,7 @@
 <template>
   <div class="login-body">
     <span class="login-slogan">欢迎来到 CNode 中文社区</span>
+    <!-- 登录表单 -->
     <el-card class="box-card">
       <template #header>
         <span class="login-title">token 登录</span>
@@ -86,6 +87,7 @@ export default defineComponent({
       });
     };
 
+    // 取消离开登录页面
     const onCancel = () => {
       router.go(-1);
     }

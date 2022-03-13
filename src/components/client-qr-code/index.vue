@@ -6,7 +6,7 @@
     <el-image
       class="qr-image"
       src="https://static.cnodejs.org/FtG0YVgQ6iginiLpf9W4_ShjiLfU"
-      fit="fit"
+      fit="fill"
     ></el-image>
     <div class="client-box">
       <el-link

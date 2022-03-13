@@ -45,7 +45,7 @@ const padLeftZero = (str: string) => {
  */
 export const getTopicTab = (isTop: boolean, tab: string): string => {
   if (isTop) return '置顶';
-  return topicTypeList.find(item => item.key === tab)?.name ?? '';
+  return topicTypeList.find(item => item.key === tab)?.name ?? '未知';
 }
 
 /**

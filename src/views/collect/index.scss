@@ -1,0 +1,38 @@
+
+  .my-message {
+    width: 90%;
+    margin: 10px auto;
+    @media only screen and (max-width: 950px) {
+      .lift-content {
+        z-index: 16;
+        width: 100%!important;
+      }
+      .right-content {
+        visibility: hidden!important;
+        width: 0px!important;
+      }
+    } 
+    .lift-content {
+      float: left;
+      width: calc(100% - 300px);
+      .box-card {
+        margin-bottom: 10px;
+        .el-card__header {
+          padding: 8px 20px;
+          padding-bottom: 0;
+          .card-title {
+            height: 40px;
+            line-height: 40px;
+            font-size: 14px;
+          }
+        }
+        .el-card__body {
+          padding: 0 20px;
+        }
+      }
+    }
+    .right-content {
+      float: right;
+      width: 290px;
+    }
+  }

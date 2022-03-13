@@ -38,7 +38,7 @@
         }
         .el-card__body {
           padding-top: 0px;
-          .my-topic-title {
+          .my-topic {
             .topic-title {
               float: left;
               width: 100%;
@@ -49,11 +49,11 @@
                 float: left;
                 .topic-title-tab {
                   padding-top: 4px;
-                  width: 80px;
+                  width: 90px;
                   float: left;
                 }
                 .title-name {
-                  width: calc(100% - 80px);
+                  width: calc(100% - 90px);
                   font-size: 20px;
                   font-weight: bold;
                   float: right;
@@ -86,12 +86,14 @@
             }
             .topic-content {
               clear: both;
+              padding-top: 2px;
               img  {
                 max-width: 100%;
               }
               p {
                 word-wrap: break-word;
                 word-break: break-all;
+                white-space: pre-line;
               }
             }
           }
@@ -126,6 +128,7 @@
               p {
                 word-wrap: break-word;
                 word-break: break-all;
+                white-space: pre-line;
               }
             }
           }

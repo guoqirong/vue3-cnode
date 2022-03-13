@@ -2,6 +2,7 @@
   <div class="detail-body">
     <div class="lift-content">
       <el-card class="box-card">
+        <!-- 详情头部信息 -->
         <template #header>
           <el-page-header
             class="card-title"
@@ -9,7 +10,7 @@
             content="话题详情"
           ></el-page-header>
         </template>
-        <span class="my-topic-title">
+        <span class="my-topic">
           <div class="topic-title">
             <div class="title-left">
               <div
@@ -38,7 +39,7 @@
                 plain
                 size="large"
                 type="warning"
-                :icon="topic?.is_collect ? Star : StarFilled"
+                :icon="topic?.is_collect ? StarFilled : Star"
                 @click="collectClick"
               ></el-button>
             </div>
@@ -61,7 +62,11 @@
       </el-card>
     </div>
     <div class="right-content">
-      <user-info-comp title="作者" :authorData="topic?.author" />
+      <user-info-comp
+        title="作者"
+        :authorData="topic?.author"
+        :authorLoading="isLoading"
+      />
       <client-qr-code-comp />
     </div>
   </div>
@@ -78,7 +83,7 @@ import { ElAvatar, ElButton, ElCard, ElMessage, ElPageHeader } from 'element-plu
 import { Star, StarFilled } from '@element-plus/icons-vue'
 import { changeLtGt, formatDate, getTopicTab } from '@/utils';
 
-interface authorType {
+export interface authorType {
   loginname: string;
   avatar_url: string;
 }
@@ -117,6 +122,7 @@ export default defineComponent({
     const router = useRouter();
     const { state } = useStore();
 
+    // 获取话题数据
     const { isLoading, adornUrl, httpRequest } = useHttpRequest();
     const topic = ref<topicDetailType>();
     const getData = () => {
@@ -141,22 +147,69 @@ export default defineComponent({
 
     getData();
 
+    // 返回列表
     const goBack = () => {
-      router.push({
-        name: 'index',
-        params: {
-          listParm: String(route.query.listParm)
+      if(route.query.listParm) {
+        router.push({
+          name: 'index',
+          params: {
+            listParm: String(route.query.listParm)
+          }
+        })
+      } else {
+        router.push('/collect')
+      }
+    };
+
+    // 收藏和取消收藏
+    const { httpRequest: collectHttpRequest } = useHttpRequest();
+    const collectClick = () => {
+      if (topic.value && topic.value.is_collect) {
+        topicDeCollect()
+      } else {
+        topicCollect()
+      }
+    };
+    const topicCollect = () => {
+      collectHttpRequest({
+        url: adornUrl(`/api/v1/topic_collect/collect`),
+        method: 'post',
+        data: {
+          topic_id: topic.value && topic.value.id,
+          accesstoken: localStorage.getItem('token') || ''
         }
+      }).then(() => {
+        if(topic.value) topic.value.is_collect = true;
+      }).catch(e => {
+        ElMessage.error('请求失败');
+        console.error(e);
       })
     };
+    const topicDeCollect = () => {
+      collectHttpRequest({
+        url: adornUrl(`/api/v1/topic_collect/de_collect`),
+        method: 'post',
+        data: {
+          topic_id: topic.value && topic.value.id,
+          accesstoken: localStorage.getItem('token') || ''
+        }
+      }).then(() => {
+        if(topic.value) topic.value.is_collect = false
+      }).catch(e => {
+        ElMessage.error('请求失败');
+        console.error(e);
+      })
+    }
 
     return {
       topic,
+      isLoading,
       Star,
       StarFilled,
       formatDate,
       getTopicTab,
       goBack,
+      collectClick,
     }
   },
 })

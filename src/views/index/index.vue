@@ -1,7 +1,9 @@
 <template>
   <div class="content-body">
+    <!-- 左侧内容 -->
     <div class="lift-content">
       <el-card class="box-card">
+        <!-- tab标签 -->
         <el-tabs
           v-model="activeTypeName"
           class="demo-tabs"
@@ -12,12 +14,14 @@
             :label="item.name"
             :name="item.key"
           ></el-tab-pane>
+          <!-- 列表 -->
           <list-comp
             :isLoading="isLoading"
             :limit="limit"
             :listData="listData"
             @seeDetail="seeDetail"
           />
+          <!-- 分页 -->
           <el-pagination
             class="pagination"
             @size-change="handleSizeChange"
@@ -32,6 +36,7 @@
         </el-tabs>
       </el-card>
     </div>
+    <!-- 右侧内容 -->
     <div class="right-content">
       <user-info-comp />
       <client-qr-code-comp />
@@ -41,7 +46,7 @@
 
 <script lang="ts">
 import useHttpRequest, { resDataType } from '@/utils/request';
-import { ElCard, ElTabPane, ElTabs } from 'element-plus';
+import { ElCard, ElMessage, ElTabPane, ElTabs } from 'element-plus';
 import { defineComponent, ref } from 'vue';
 import { topicListItemType } from '@/components/list-item/index.vue';
 import ListComp from '@/components/list/index.vue';
@@ -88,7 +93,8 @@ export default defineComponent({
         if (res?.data?.success) {
           listData.value = res?.data.data ?? [];
         }
-      }).catch((e: unknown) => {
+      }).catch((e) => {
+        ElMessage.error('请求失败');
         console.error(e);
       })
     };
@@ -127,7 +133,6 @@ export default defineComponent({
       page.value = Number(pageNum);
       limit.value = Number(limitNum);
     }
-    console.log(tab, pageNum, limitNum);
     getTopicList({});
 
     // 查看详情
