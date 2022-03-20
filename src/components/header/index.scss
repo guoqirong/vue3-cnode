@@ -1,0 +1,55 @@
+.navbar {
+  margin-bottom: 0;
+  z-index: 9;
+  width: 100%;
+  position: relative;
+  background: #444;
+  font-size: 13px;
+  .navbar-content {
+    border: none;
+    box-shadow: none;
+    width: 90%;
+    margin: auto;
+    padding: 5px;
+    .navbar-logo {
+      width: 120px;
+      display: inline-block;
+      padding: 3px 10px;
+      height: 34px;
+      line-height: 34px;
+      cursor: pointer;
+      img {
+        width: 100%;
+      }
+    }
+    @media only screen and (max-width: 520px) {
+      .navbar-noright-link {
+        float: none!important;
+      }
+    } 
+    .navbar-link {
+      width: calc(100% - 180px);
+      min-width: 300px;
+      text-align: right;
+      height: 38px;
+      line-height: 38px;
+      float: right;
+      padding-right: 20px;
+      span {
+        margin: 0 4px;
+        .el-link {
+          color: #cccccc;
+        }
+        .el-link:hover {
+          color: white;
+        }
+      }
+      .badge-item {
+        .el-badge__content {
+          margin-top: 10px;
+          border: 0px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+.el-skeleton {
+  .list-skeleton-item {
+    height: 50px;
+    border-bottom: 1px solid #f0f0f0;
+    .el-skeleton__item {
+      height: 30px;
+      margin-top: 10px;
+      margin-left: 10px;
+    }
+    .skeleton-user-img {
+      width: 30px;
+      margin-left: 0px;
+    }
+    .skeleton-reply-count {
+      width: 80px;
+    }
+    .skeleton-topic-tab {
+      width: 50px;
+    }
+    .skeleton-created-time {
+      width: 80px;
+      float: right;
+    }
+  }
+}

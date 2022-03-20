@@ -1,0 +1,77 @@
+.box-card {
+  margin-bottom: 10px;
+  .not-login {
+    .describe {
+      margin-top: 20px;
+      font-size: 14px;
+      .not-bottom {
+        display: inline-block;
+        height: 20px;
+        line-height: 20px;
+      }
+      .el-link {
+        margin-top: -3px;
+      }
+    }
+  }
+  .el-card__header {
+    padding: 8px 20px;
+    padding-bottom: 0;
+    .card-title {
+      height: 40px;
+      line-height: 40px;
+      font-size: 14px;
+    }
+  }
+  .user-skeleton {
+    .skeleton-user-img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      float: left;
+    }
+    .skeleton-user-name {
+      width: calc(100% - 50px);
+      height: 18px;
+      float: left;
+    }
+    .skeleton-user-score {
+      clear: both;
+      height: 14px;
+      margin-top: 10px;
+    }
+  }
+  .user {
+    height: 60px;
+    .user-img {
+      width: 40px;
+      margin-right: 10px;
+      float: left;
+    }
+    .user-name {
+      width: calc(100% - 50px);
+      font-size: 18px;
+      float: left;
+    }
+    .user-score {
+      clear: both;
+      font-size: 14px;
+    }
+  }
+}
+.list-card {
+  .el-card__body {
+    padding: 0;
+    .recent_topics {
+      div {
+        padding: 10px 20px;
+        font-size: 12px;
+        border-bottom: 1px solid #f0f0f0;
+        width: calc(100% - 40px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+}
