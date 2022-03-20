@@ -39,6 +39,9 @@
         .el-card__body {
           padding-top: 0px;
           .my-topic {
+            .detail-skeleton {
+              margin: 10px auto;
+            }
             .topic-title {
               float: left;
               width: 100%;

@@ -6,7 +6,7 @@
         <!-- tab标签 -->
         <el-tabs
           v-model="activeTypeName"
-          class="demo-tabs"
+          class="topic-tabs"
           @tab-click="handleTabClick">
           <el-tab-pane
             v-for="(item, i) in topicTypeList"

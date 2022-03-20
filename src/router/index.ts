@@ -19,6 +19,18 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/detail/index.vue')
   },
   {
+    path: '/add-topic',
+    name: 'addTopic',
+    meta: { requiredLogin: true },
+    component: () => import('@/views/edit-topic/index.vue')
+  },
+  {
+    path: '/edit-topic/:id',
+    name: 'editTopic',
+    meta: { requiredLogin: true },
+    component: () => import('@/views/edit-topic/index.vue')
+  },
+  {
     path: '/message',
     name: 'message',
     meta: { requiredLogin: true },
@@ -33,6 +45,7 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
+  // 处理生产环境github上用的不是根目录的路由问题
   history: createWebHistory(process.env.NODE_ENV === 'production' ? process.env.BASE_URL + '/vue3-cnode' : process.env.BASE_URL),
   routes,
 });

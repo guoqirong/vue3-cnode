@@ -11,7 +11,7 @@
           ></el-page-header>
         </template>
         <span class="my-topic">
-          <el-skeleton :loading="isLoading" animated :rows="20">
+          <el-skeleton class="detail-skeleton" :loading="isLoading" animated :rows="20">
             <template #default>
               <div class="topic-title">
                 <div class="title-left">
