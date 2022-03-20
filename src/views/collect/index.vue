@@ -56,7 +56,7 @@ export default defineComponent({
           url: adornUrl(`/api/v1/topic_collect/${userData.value.loginname}`),
           method: 'get'
         }).then(({data}) => {
-          collect.value = data.data
+          collect.value = data.data;
         }).catch(e => {
           ElMessage.error('请求失败');
           console.error(e);
@@ -75,7 +75,7 @@ export default defineComponent({
           id: id,
         }
       });
-    }
+    };
 
     return {
       isLoading,

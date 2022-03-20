@@ -45,6 +45,7 @@ import { ElLink, ElBadge } from 'element-plus';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import useHttpRequest from '@/utils/request';
+import { emitter } from '@/views/message/index.vue';
 
 export default defineComponent({
   name: 'HeaderComp',
@@ -73,6 +74,11 @@ export default defineComponent({
         })
       }
     };
+    
+    // 通过消息模块已读信息更新未读数
+    emitter.on('read-msg', () => {
+      getMassageCount();
+    });
 
     // 获取未读信息数
     const count = ref(0);

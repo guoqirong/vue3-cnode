@@ -54,7 +54,7 @@ export const getTopicTab = (isTop: boolean, tab: string): string => {
  * @param maxNum 最大值
  * @returns 随机数
  */
-export const randomNum = (minNum: number,maxNum?: number): number => {
+export const randomNum = (minNum: number, maxNum?: number): number => {
   if (minNum !== undefined && maxNum !== undefined) {
     return parseInt(String(Math.random() * (maxNum - minNum + 1) + minNum), 10);
   } else if (minNum !== undefined) {
@@ -64,7 +64,12 @@ export const randomNum = (minNum: number,maxNum?: number): number => {
   }
 }
 
-export const changeLtGt = (content: string) => {
+/**
+ * 将&lt转成<、&gt转成>
+ * @param content 需转换的字符串
+ * @returns 转换后结果
+ */
+export const changeLtGt = (content: string): string => {
   const str = content.replace(/&lt;/g, '<');
   return str.replace(/&gt;/g, '>');
 };

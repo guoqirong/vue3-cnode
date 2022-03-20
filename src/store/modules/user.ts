@@ -1,4 +1,4 @@
-interface userStateType {
+export interface userStateType {
   token: string;
   simpleUserData: simpleUserDataType;
   userData: userDataType;

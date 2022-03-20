@@ -5,58 +5,70 @@
       <el-card class="box-card">
         <template #header>
           <span class="card-title">未读信息</span>
-          <el-button class="all-read" @click="readAll">全部已读</el-button>
+          <el-button
+            class="all-read"
+            v-if="message && message.hasnot_read_messages && message.hasnot_read_messages.length > 0"
+            @click="readAll"
+          >全部已读</el-button>
         </template>
-        <div>
-          <span v-if="message && message.hasnot_read_messages && message.hasnot_read_messages.length > 0">
-            <div v-for="(item, i) in message.hasnot_read_messages" :key="i" class="notread-item">
-              <div class="user-img">
-                <el-avatar
-                  shape="square"
-                  :size="40"
-                  :src="item.author.avatar_url"
-                  :key="item.author.avatar_url"
-                  :alt="item.author.loginname"
-                ></el-avatar>
-              </div>
-              <div class="read-messages-title">
-                <div class="title">{{item.author.loginname + '回复了您的话题'}}</div>
-                <div class="desc">{{formatDate(item.create_at, 'yyyy-MM-dd')}}</div>
-              </div>
-              <div class="read-btn"><el-button @click="readOne(item.id)">已读</el-button></div>
-              <div class="reply-content" v-html="item.reply.content"></div>
-              <div class="topic-title">话题：{{item.topic.title}}</div>
-            </div>
-          </span>
-          <div v-else class="is-notdata">暂无数据</div>
-        </div>
+        <template #default>
+          <el-skeleton class="message-skeleton" :loading="isLoading" animated :rows="6">
+            <template #default>
+              <template v-if="message && message.hasnot_read_messages && message.hasnot_read_messages.length > 0">
+                <div v-for="(item, i) in message.hasnot_read_messages" :key="i" class="notread-item">
+                  <div class="user-img">
+                    <el-avatar
+                      shape="square"
+                      :size="40"
+                      :src="item.author.avatar_url"
+                      :key="item.author.avatar_url"
+                      :alt="item.author.loginname"
+                    ></el-avatar>
+                  </div>
+                  <div class="read-messages-title">
+                    <div class="title">{{item.author.loginname + '回复了您的话题'}}</div>
+                    <div class="desc">{{formatDate(item.create_at, 'yyyy-MM-dd')}}</div>
+                  </div>
+                  <div class="read-btn"><el-button @click="readOne(item.id)">已读</el-button></div>
+                  <div class="reply-content" v-html="item.reply.content"></div>
+                  <div class="topic-title">话题：{{item.topic.title}}</div>
+                </div>
+              </template>
+              <el-empty v-else description="暂无数据" />
+            </template>
+          </el-skeleton>
+        </template>
       </el-card>
       <el-card class="box-card">
         <template #header>
           <span class="card-title">已读信息</span>
         </template>
-        <div>
-          <span v-if="message && message.has_read_messages && message.has_read_messages.length > 0">
-            <div v-for="(item, i) in message.has_read_messages" :key="i" class="read-item">
-              <div class="user-img">
-                <el-avatar
-                  shape="square"
-                  :size="40"
-                  :src="item.author.avatar_url"
-                  :key="item.author.avatar_url"
-                  :alt="item.author.loginname"
-                ></el-avatar>
-              </div>
-              <div class="read-messages-title">
-                <div class="title">{{item.author.loginname + '回复了您的话题'}}</div>
-                <div class="desc">{{formatDate(item.create_at, 'yyyy-MM-dd')}}</div>
-              </div>
-              <div class="reply-content" v-html="item.reply.content"></div>
-              <div class="topic-title">话题：{{item.topic.title}}</div>
-            </div>
-          </span>
-          <div v-else class="is-notdata">暂无数据</div>
-        </div>
+        <template #default>
+          <el-skeleton class="message-skeleton" :loading="isLoading" animated :rows="6">
+            <template #default>
+              <template v-if="message && message.has_read_messages && message.has_read_messages.length > 0">
+                <div v-for="(item, i) in message.has_read_messages" :key="i" class="read-item">
+                  <div class="user-img">
+                    <el-avatar
+                      shape="square"
+                      :size="40"
+                      :src="item.author.avatar_url"
+                      :key="item.author.avatar_url"
+                      :alt="item.author.loginname"
+                    ></el-avatar>
+                  </div>
+                  <div class="read-messages-title">
+                    <div class="title">{{item.author.loginname + '回复了您的话题'}}</div>
+                    <div class="desc">{{formatDate(item.create_at, 'yyyy-MM-dd')}}</div>
+                  </div>
+                  <div class="reply-content" v-html="item.reply.content"></div>
+                  <div class="topic-title">话题：{{item.topic.title}}</div>
+                </div>
+              </template>
+              <el-empty v-else description="暂无数据" />
+            </template>
+          </el-skeleton>
+        </template>
       </el-card>
     </div>
     <!-- 右侧内容 -->
@@ -73,9 +85,10 @@ import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
 import UserInfoComp from '@/components/user-info/index.vue';
 import useHttpRequest from '@/utils/request';
 import { useStore } from 'vuex';
-import { ElMessage } from 'element-plus';
+import { ElEmpty, ElMessage, ElSkeleton } from 'element-plus';
 import { authorType } from '../detail/index.vue';
 import { formatDate } from '@/utils';
+import mitt from 'mitt';
 
 interface replyType {
   content: string;
@@ -105,8 +118,12 @@ interface messagesType {
   hasnot_read_messages: messagesItemType[];
 }
 
+export const emitter = mitt();
+
 export default defineComponent({
   components: {
+    ElSkeleton,
+    ElEmpty,
     ClientQrCodeComp,
     UserInfoComp
   },
@@ -147,13 +164,14 @@ export default defineComponent({
         url: adornUrl(`/api/v1/message/mark_all`),
         method: 'post',
         params: {
-          accesstoken: token
+          accesstoken: token.value
         }
       }).then(() => {
-        location.reload()
+        emitter.emit('read-msg');
+        getData();
       }).catch(e => {
         ElMessage.error('请求失败');
-        console.error(e)
+        console.error(e);
       })
     };
     const readOne = (id: string) => {
@@ -161,18 +179,20 @@ export default defineComponent({
         url: adornUrl(`/api/v1/message/mark_one/${id}`),
         method: 'post',
         params: {
-          accesstoken: token
+          accesstoken: token.value
         }
       }).then(() => {
-        location.reload()
+        emitter.emit('read-msg');
+        getData();
       }).catch(e => {
         ElMessage.error('请求失败');
-        console.error(e)
+        console.error(e);
       })
     };
 
     return {
       message,
+      isLoading,
       readAll,
       readOne,
       formatDate,

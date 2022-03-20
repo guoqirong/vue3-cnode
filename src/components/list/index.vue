@@ -14,7 +14,7 @@
       </div>
     </template>
     <template #default>
-      <div class="list-body">
+      <div class="list-body" v-if="list.length">
         <list-item
           v-for="item in list"
           :key="item.id"
@@ -22,6 +22,7 @@
           @seeDetail="seeDetail"
         ></list-item>
       </div>
+      <el-empty v-else description="暂无数据" />
     </template>
   </el-skeleton>
 </template>
@@ -29,12 +30,12 @@
 <script lang="ts">
 import { defineComponent, PropType, ref, watch } from 'vue';
 import ListItem, { topicListItemType } from '@/components/list-item/index.vue';
-import { ElSkeleton } from 'element-plus';
+import { ElEmpty, ElSkeleton } from 'element-plus';
 import { randomNum } from '@/utils';
 
 export default defineComponent({
   name: 'ListComp',
-  components: { ListItem, ElSkeleton },
+  components: { ListItem, ElSkeleton, ElEmpty },
   props: {
     // 列表数据
     listData: {
@@ -54,7 +55,7 @@ export default defineComponent({
   },
   setup(props, content) {
     // 列表数据
-    const list = ref<topicListItemType[]>();
+    const list = ref<topicListItemType[]>([]);
     watch(() => props.listData, (val) => {
       list.value = val as topicListItemType[];
     });

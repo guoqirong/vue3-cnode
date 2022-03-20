@@ -11,39 +11,43 @@
           ></el-page-header>
         </template>
         <span class="my-topic">
-          <div class="topic-title">
-            <div class="title-left">
-              <div
-              class="topic-title-tab"
-              :style="{
-                width: !topic?.top && topic?.tab === 'dev' ? '' : '50px'
-              }">
-                <el-tag effect="dark" :type="topic?.top ? 'danger' : 'success'">
-                  {{getTopicTab(topic?.top, topic?.tab)}}
-                </el-tag>
+          <el-skeleton :loading="isLoading" animated :rows="20">
+            <template #default>
+              <div class="topic-title">
+                <div class="title-left">
+                  <div
+                  class="topic-title-tab"
+                  :style="{
+                    width: !topic?.top && topic?.tab === 'dev' ? '' : '50px'
+                  }">
+                    <el-tag effect="dark" :type="topic?.top ? 'danger' : 'success'">
+                      {{getTopicTab(topic?.top, topic?.tab)}}
+                    </el-tag>
+                  </div>
+                  <div
+                    class="title-name"
+                    :style="{
+                      'width': !topic?.top && topic?.tab === 'dev' ? '' : 'calc(100% - 50px)'
+                    }"
+                  >{{topic?.title}}</div>
+                  <div class="topic-title-desc">
+                    <span>{{'● ' + formatDate((topic?.create_at || ''), 'yyyy-MM-dd')}}</span>
+                    <span>{{'● ' + (topic?.author && topic?.author.loginname ? topic?.author.loginname : '')}}</span>
+                  </div>
+                </div>
+                <div class="title-right">
+                  <el-button
+                    circle
+                    plain
+                    size="large"
+                    type="warning"
+                    :icon="topic?.is_collect ? StarFilled : Star"
+                    @click="collectClick"
+                  ></el-button>
+                </div>
               </div>
-              <div
-                class="title-name"
-                :style="{
-                  'width': !topic?.top && topic?.tab === 'dev' ? '' : 'calc(100% - 50px)'
-                }"
-              >{{topic?.title}}</div>
-              <div class="topic-title-desc">
-                <span>{{'● ' + formatDate((topic?.create_at || ''), 'yyyy-MM-dd')}}</span>
-                <span>{{'● ' + (topic?.author && topic?.author.loginname ? topic?.author.loginname : '')}}</span>
-              </div>
-            </div>
-            <div class="title-right">
-              <el-button
-                circle
-                plain
-                size="large"
-                type="warning"
-                :icon="topic?.is_collect ? StarFilled : Star"
-                @click="collectClick"
-              ></el-button>
-            </div>
-          </div>
+            </template>
+          </el-skeleton>
           <div class="topic-content" v-html="topic?.content"></div>
         </span>
       </el-card>
@@ -79,7 +83,7 @@ import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
 import useHttpRequest from '@/utils/request';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { ElAvatar, ElButton, ElCard, ElMessage, ElPageHeader } from 'element-plus';
+import { ElAvatar, ElButton, ElCard, ElMessage, ElPageHeader, ElSkeleton } from 'element-plus';
 import { Star, StarFilled } from '@element-plus/icons-vue'
 import { changeLtGt, formatDate, getTopicTab } from '@/utils';
 
@@ -116,7 +120,15 @@ interface topicDetailType {
 }
 
 export default defineComponent({
-  components: { ElCard, ElPageHeader, ElButton, ElAvatar, UserInfoComp, ClientQrCodeComp },
+  components: {
+    ElCard,
+    ElPageHeader,
+    ElButton,
+    ElAvatar,
+    ElSkeleton,
+    UserInfoComp,
+    ClientQrCodeComp
+  },
   setup() {
     const route = useRoute();
     const router = useRouter();
