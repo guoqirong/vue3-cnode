@@ -16,15 +16,30 @@
     width: calc(100% - 300px);
     .box-card {
       margin-bottom: 10px;
+      position: relative;
+      .add-topic-btn {
+        position: absolute;
+        top: 14px;
+        right: 28px;
+        z-index: 202;
+      }
       .el-card__body {
         padding-top: 0px;
-        .el-tabs__header {
-          margin: 8px;
-          margin-bottom: 0;
-        }
-        .pagination {
-          margin-top: 10px;
-          white-space: normal;
+        .topic-tabs {
+          .el-tabs__header {
+            margin: 8px;
+            margin-bottom: 0;
+            .el-tabs__nav-scroll {
+              width: calc(100% - 92px);
+            }
+            .el-tabs__nav-next {
+              right: 92px;
+            }
+          }
+          .pagination {
+            margin-top: 10px;
+            white-space: normal;
+          }
         }
       }
     }

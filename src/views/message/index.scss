@@ -1,103 +1,102 @@
-
-  .my-message {
-    width: 90%;
-    margin: 10px auto;
-    @media only screen and (max-width: 950px) {
-      .lift-content {
-        z-index: 16;
-        width: 100%!important;
-      }
-      .right-content {
-        visibility: hidden!important;
-        width: 0px!important;
-      }
-    } 
+.my-message {
+  width: 90%;
+  margin: 10px auto;
+  @media only screen and (max-width: 950px) {
     .lift-content {
-      float: left;
-      width: calc(100% - 300px);
-      .box-card {
-        margin-bottom: 10px;
-        .el-card__header {
-          padding: 8px 20px;
-          padding-bottom: 0;
-          .card-title {
-            height: 40px;
-            line-height: 40px;
-            font-size: 14px;
-          }
-          .all-read {
-            margin-top: 2px;
-            float: right;
-          }
-        }
-        .el-card__body {
-          padding: 0;
-          .message-skeleton {
-            padding: 10px 20px;
-            width: calc(100% - 40px);
-          }
-          .notread-item,.read-item {
-            padding: 10px 20px;
-            border-bottom: 1px solid #f0f0f0;
-            .user-img {
-              margin-right: 10px;
-              float: left;
-            }
-            .read-messages-title {
-              float: left;
-              .title {
-                font-size: 18px;
-                font-weight: bold;
-              }
-              .desc {
-                font-size: 14px;
-                color: #b4b4b4;
-              }
-            }
-            .read-btn {
-              margin-top: 6px;
-              float: right;
-            }
-            .reply-content {
-              clear: both;
-              img  {
-                max-width: 100%;
-              }
-              p {
-                word-wrap: break-word;
-                word-break: break-all;
-                white-space: pre-line;
-              }
-            }
-            .topic-title {
-              background-color: #b4b4b4;
-              padding: 4px;
-            }
-          }
-          .notread-item {
-            .user-img {
-              width: 40px;
-            }
-            .read-messages-title {
-              width: calc(100% - 60px - 50px);
-            }
-            .read-btn {
-              width: 60px;
-            }
-          }
-          .read-item {
-            .user-img {
-              width: 40px;
-            }
-            .read-messages-title {
-              width: calc(100% - 50px);
-            }
-          }
-        }
-      }
+      z-index: 16;
+      width: 100%!important;
     }
     .right-content {
-      float: right;
-      width: 290px;
+      visibility: hidden!important;
+      width: 0px!important;
+    }
+  } 
+  .lift-content {
+    float: left;
+    width: calc(100% - 300px);
+    .box-card {
+      margin-bottom: 10px;
+      .el-card__header {
+        padding: 8px 20px;
+        padding-bottom: 0;
+        .card-title {
+          height: 40px;
+          line-height: 40px;
+          font-size: 14px;
+        }
+        .all-read {
+          margin-top: 2px;
+          float: right;
+        }
+      }
+      .el-card__body {
+        padding: 0;
+        .message-skeleton {
+          padding: 10px 20px;
+          width: calc(100% - 40px);
+        }
+        .notread-item,.read-item {
+          padding: 10px 20px;
+          border-bottom: 1px solid #f0f0f0;
+          .user-img {
+            margin-right: 10px;
+            float: left;
+          }
+          .read-messages-title {
+            float: left;
+            .title {
+              font-size: 18px;
+              font-weight: bold;
+            }
+            .desc {
+              font-size: 14px;
+              color: #b4b4b4;
+            }
+          }
+          .read-btn {
+            margin-top: 6px;
+            float: right;
+          }
+          .reply-content {
+            clear: both;
+            img  {
+              max-width: 100%;
+            }
+            p {
+              word-wrap: break-word;
+              word-break: break-all;
+              white-space: pre-line;
+            }
+          }
+          .topic-title {
+            background-color: #b4b4b4;
+            padding: 4px;
+          }
+        }
+        .notread-item {
+          .user-img {
+            width: 40px;
+          }
+          .read-messages-title {
+            width: calc(100% - 60px - 50px);
+          }
+          .read-btn {
+            width: 60px;
+          }
+        }
+        .read-item {
+          .user-img {
+            width: 40px;
+          }
+          .read-messages-title {
+            width: calc(100% - 50px);
+          }
+        }
+      }
     }
   }
+  .right-content {
+    float: right;
+    width: 290px;
+  }
+}

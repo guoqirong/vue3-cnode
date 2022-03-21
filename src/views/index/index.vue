@@ -3,6 +3,11 @@
     <!-- 左侧内容 -->
     <div class="lift-content">
       <el-card class="box-card">
+        <el-button
+          class="add-topic-btn"
+          type="primary"
+          @click="addTopic"
+        >发布话题</el-button>
         <!-- tab标签 -->
         <el-tabs
           v-model="activeTypeName"
@@ -109,6 +114,11 @@ export default defineComponent({
       });
     };
 
+    // 发布话题
+    const addTopic = () => {
+      router.push('/add-topic');
+    };
+
     // 页码、页面显示条数、换页及切换显示条数
     const page = ref(1);
     const limit = ref(20);
@@ -152,6 +162,7 @@ export default defineComponent({
       listData,
       activeTypeName,
       handleTabClick,
+      addTopic,
       seeDetail,
       page,
       limit,

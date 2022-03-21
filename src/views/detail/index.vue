@@ -37,6 +37,7 @@
                 </div>
                 <div class="title-right">
                   <el-button
+                    v-if="!!token"
                     circle
                     plain
                     size="large"
@@ -206,7 +207,7 @@ export default defineComponent({
           accesstoken: localStorage.getItem('token') || ''
         }
       }).then(() => {
-        if(topic.value) topic.value.is_collect = false
+        if(topic.value) topic.value.is_collect = false;
       }).catch(e => {
         ElMessage.error('请求失败');
         console.error(e);
@@ -216,6 +217,7 @@ export default defineComponent({
     return {
       topic,
       isLoading,
+      token: state.user.token,
       Star,
       StarFilled,
       formatDate,
