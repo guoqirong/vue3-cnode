@@ -142,38 +142,5 @@
   .right-content {
     float: right;
     width: 290px;
-    .box-card {
-      margin-bottom: 10px;
-      .el-card__header {
-        padding: 8px 20px;
-        padding-bottom: 0;
-        .card-title {
-          height: 40px;
-          line-height: 40px;
-          font-size: 14px;
-        }
-      }
-      .author {
-        height: 40px;
-        .author-img {
-          width: 40px;
-          margin-right: 10px;
-          float: left;
-        }
-        .author-name {
-          width: calc(100% - 50px);
-          font-size: 18px;
-          float: left;
-        }
-      }
-      .client-box {
-        width: 100%;
-        .el-link {
-          display: inline-block;
-          width: 100%;
-          text-align: center;
-        }
-      }
-    }
   }
 }
