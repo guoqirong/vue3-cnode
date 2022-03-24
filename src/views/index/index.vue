@@ -101,7 +101,7 @@ export default defineComponent({
       }).catch((e) => {
         ElMessage.error('请求失败');
         console.error(e);
-      })
+      });
     };
 
     // 类型tab选中态及点击事件
@@ -153,8 +153,8 @@ export default defineComponent({
           id: id,
           listParm: `${activeTypeName.value}|${page.value}|${limit.value}`
         }
-      })
-    }
+      });
+    };
 
     return {
       topicTypeList,
@@ -168,7 +168,7 @@ export default defineComponent({
       limit,
       handleCurrentChange,
       handleSizeChange,
-    }
+    };
   },
 })
 </script>

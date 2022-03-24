@@ -2,6 +2,9 @@ import { createApp } from 'vue';
 // 全局引入element ui
 // import ElementPlus from 'element-plus';
 // import 'element-plus/dist/index.css';
+// message样式导入 -- 几乎所有模块都会使用的，故在全局引入
+import 'element-plus/theme-chalk/el-message.css';
+import 'element-plus/theme-chalk/el-message-box.css';
 import App from './App.vue';
 import router from './router';
 import store from './store';

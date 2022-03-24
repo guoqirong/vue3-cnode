@@ -20,6 +20,7 @@
       .el-card__header {
         padding: 8px 20px;
         padding-bottom: 0;
+        position: relative;
         .card-title {
           .el-page-header {
             height: 40px;
@@ -28,6 +29,11 @@
               font-size: 14px;
             }
           }
+        }
+        .edit-topic-btn {
+          position: absolute;
+          right: 20px;
+          top: 8px;
         }
         .card-replies-title {
           height: 40px;

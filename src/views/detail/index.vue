@@ -9,6 +9,12 @@
             @back="goBack"
             content="话题详情"
           ></el-page-header>
+          <el-button
+            v-if="userName === topic?.author.loginname"
+            class="edit-topic-btn"
+            type="primary"
+            @click="editTopic"
+          >编辑话题</el-button>
         </template>
         <span class="my-topic">
           <el-skeleton class="detail-skeleton" :loading="isLoading" animated :rows="20">
@@ -78,7 +84,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import UserInfoComp from '@/components/user-info/index.vue';
 import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
 import useHttpRequest from '@/utils/request';
@@ -135,6 +141,11 @@ export default defineComponent({
     const router = useRouter();
     const { state } = useStore();
 
+    // 用户名
+    const userName = computed(() => {
+      return state.user.simpleUserData.loginname;
+    });
+
     // 获取话题数据
     const { isLoading, adornUrl, httpRequest } = useHttpRequest();
     const topic = ref<topicDetailType>();
@@ -173,6 +184,16 @@ export default defineComponent({
         router.push('/collect')
       }
     };
+
+    // 修改话题
+    const editTopic = () => {
+      router.push({
+        path: `/edit-topic/${topic.value?.id}`,
+        query: {
+          listParm: String(route.query.listParm)
+        }
+      })
+    }
 
     // 收藏和取消收藏
     const { httpRequest: collectHttpRequest } = useHttpRequest();
@@ -215,6 +236,8 @@ export default defineComponent({
     }
 
     return {
+      userName,
+      editTopic,
       topic,
       isLoading,
       token: state.user.token,

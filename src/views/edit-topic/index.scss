@@ -46,6 +46,11 @@
             .el-form-item.is-last {
               margin-bottom: 0px;
             }
+            .el-form-item.is-error {
+              .tox-tinymce {
+                border: 1px solid var(--el-color-danger);
+              }
+            }
           }
         }
       }

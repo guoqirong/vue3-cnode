@@ -7,7 +7,7 @@
           <el-page-header
             class="card-title"
             @back="goBack"
-            content="发布话题"
+            :content="route?.name === 'addTopic' ? '发布话题' : '编辑话题'"
           ></el-page-header>
         </template>
         <span class="edit-topic">
@@ -45,12 +45,11 @@
                   ></editor>
                 </el-form-item>
                 <el-form-item class="is-last">
-                  <el-button type="primary" @click="onSubmit(form)">提交</el-button>
+                  <el-button type="primary" :loading="IsSubmitLoading" @click="onSubmit(form)">提交</el-button>
                 </el-form-item>
               </el-form>
             </template>
           </el-skeleton>
-          <div class="topic-content" v-html="topic?.content"></div>
         </span>
       </el-card>
     </div>
@@ -62,13 +61,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue';
-import { ElButton, ElCard, ElForm, ElFormItem, ElPageHeader, ElSelect, ElSkeleton } from 'element-plus';
+import { computed, defineComponent, reactive, ref } from 'vue';
+import { ElButton, ElCard, ElForm, ElFormItem, ElMessage, ElPageHeader, ElSelect, ElSkeleton } from 'element-plus';
 import UserInfoComp from '@/components/user-info/index.vue';
 import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
 import Editor from '@tinymce/tinymce-vue';
 import { topicTypeList } from '@/constant';
 import { useRoute, useRouter } from 'vue-router';
+import useHttpRequest from '@/utils/request';
+import { useStore } from 'vuex';
+import { changeLtGt } from '@/utils';
 
 export default defineComponent({
   components: {
@@ -84,23 +86,56 @@ export default defineComponent({
     ClientQrCodeComp
   },
   setup() {
-    // 返回
+    const { state } = useStore();
+    // 用户登录态
+    const token = computed(() => {
+      return state.user.token;
+    });
     const route = useRoute();
     const router = useRouter();
-    const goBack = () => {
-      if (route.name === 'addTopic') {
-        router.push('/');
-      }
-    };
-
-    // 表单ref
-    const form = ref();
     // 表单值对象
     const topicForm = reactive({
       title: '',
       tab: '',
       content: '',
     });
+    
+    // 返回
+    const goBack = () => {
+      if (route.name === 'addTopic') {
+        router.push('/');
+      } else {
+        router.push({
+        path: `/detail`,
+        query: {
+          id: route.params.id,
+          listParm: route.query.listParm,
+        }
+      });
+      }
+    };
+    
+    const { isLoading, adornUrl, httpRequest } = useHttpRequest();
+    const getData = () => {
+      httpRequest ({
+        url: adornUrl(`/api/v1/topic/${route.params.id}`),
+        method: 'get',
+        params: {
+          mdrender: true,
+          accesstoken: state.user.token || ''
+        }
+      }).then(({data}) => {
+        data.data.content = changeLtGt(data.data.content);
+        Object.assign(topicForm, data.data);
+      }).catch(e => {
+        ElMessage.error('请求失败');
+        console.error(e);
+      })
+    };
+    if (route.params.id) getData();
+
+    // 表单ref
+    const form = ref<InstanceType<typeof ElForm>>();
     // 表单校验规则
     const rules = reactive({
       title: [
@@ -138,26 +173,49 @@ export default defineComponent({
     };
 
     // 表单提交事件
-    const onSubmit = async (formEl: any) => {
-      console.log(formEl);
+    const onSubmit = async (formEl: InstanceType<typeof ElForm> | undefined) => {
       if (!formEl) return;
-      await formEl.validate((valid: boolean, fields: Array<Record<string, unknown>>) => {
+      await formEl.validate((valid, fields) => {
         if (valid) {
-          console.log('submit!', valid, topicForm);
+          setEditData();
         } else {
-          console.log('error submit!', fields);
+          console.log('error submit!', fields, topicForm);
         }
       });
+    };
+    
+    // 添加或修改请求
+    const { isLoading: IsSubmitLoading, httpRequest: submitHttpRequest } = useHttpRequest();
+    const setEditData = () => {
+      submitHttpRequest({
+        url: adornUrl(`/api/v1/topics${route.name === 'addTopic' ? '' : '/update'}`),
+        method: 'post',
+        data: {
+          ...topicForm,
+          tab: 'dev',
+          accesstoken: token.value,
+        }
+      }).then(({ data }) => {
+        if (data?.success) {
+          ElMessage.success('发布成功');
+          goBack();
+        }
+      }).catch(e => {
+        ElMessage.error('发布失败');
+        console.error(e);
+      })
     };
 
     return {
       goBack,
+      route,
       form,
       topicForm,
       rules,
       init,
       topicTypeList: topicTypeList.filter(item => item.key !== 'all'),
       onSubmit,
+      IsSubmitLoading,
     };
   },
 })
