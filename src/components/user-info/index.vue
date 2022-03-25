@@ -47,7 +47,7 @@
   </el-card>
   <el-card
     class="box-card list-card"
-    v-if="token && userData.recent_topics">
+    v-if="isTopicsRepliesList && token && userData.recent_topics">
     <template #header>
       <span class="card-title">我的主题</span>
     </template>
@@ -65,7 +65,7 @@
   </el-card>
   <el-card
     class="box-card list-card"
-    v-if="token && userData.recent_replies">
+    v-if="isTopicsRepliesList && token && userData.recent_replies">
     <template #header>
       <span class="card-title">我的回复</span>
     </template>
@@ -102,6 +102,10 @@ export default defineComponent({
       default: undefined,
     },
     authorLoading: Boolean,
+    isTopicsRepliesList: {
+      type: Boolean,
+      default: true,
+    },
   },
   setup(props) {
     const { state } = useStore();

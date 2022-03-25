@@ -71,6 +71,29 @@
           <div class="replie-content" v-html="item?.content"></div>
         </div>
       </el-card>
+      <el-card class="box-card">
+        <template #header>
+          <span class="card-replies-title">添加回复</span>
+        </template>
+        <el-form
+          ref="form"
+          class="replies-form"
+          :model="topicReplieForm"
+          :rules="rules"
+          label-width="0"
+        >
+          <el-form-item label="" prop="content">
+            <editor
+              api-key="mh2f2ffdlr2zzaky3yk52tx8rtxrxnbt1a6p7p7jx96hy70r"
+              :init="init"
+              v-model="topicReplieForm.content"
+            ></editor>
+          </el-form-item>
+          <el-form-item class="is-last">
+            <el-button type="primary" @click="replieTopic(form)">回复</el-button>
+          </el-form-item>
+        </el-form>
+      </el-card>
     </div>
     <div class="right-content">
       <user-info-comp
@@ -84,15 +107,16 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent, reactive, ref } from 'vue';
 import UserInfoComp from '@/components/user-info/index.vue';
 import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
 import useHttpRequest from '@/utils/request';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { ElAvatar, ElButton, ElCard, ElMessage, ElPageHeader, ElSkeleton } from 'element-plus';
+import { ElAvatar, ElButton, ElCard, ElForm, ElFormItem, ElMessage, ElPageHeader, ElSkeleton } from 'element-plus';
 import { Star, StarFilled } from '@element-plus/icons-vue'
 import { changeLtGt, formatDate, getTopicTab } from '@/utils';
+import Editor from '@tinymce/tinymce-vue';
 
 export interface authorType {
   loginname: string;
@@ -133,6 +157,9 @@ export default defineComponent({
     ElButton,
     ElAvatar,
     ElSkeleton,
+    ElForm,
+    ElFormItem,
+    Editor,
     UserInfoComp,
     ClientQrCodeComp
   },
@@ -140,6 +167,30 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const { state } = useStore();
+    
+    // 富文本初始配置项
+    const init = {
+      height: 200, //富文本高度
+      width: '100%', //富文本宽度
+      language_url: '/tinymce-langs/zh_CN.js', //中文包
+      language: 'zh_CN', //中文
+      browser_spellcheck: true, // 拼写检查
+      branding: false, // 去水印
+      elementpath: true, //禁用编辑器底部的状态栏
+      statusbar: true, // 隐藏编辑器底部的状态栏
+      paste_data_images: true, // 是否允许粘贴图像
+      menubar: false, // 隐藏最上方menu
+      fontsize_formats: '14px 16px 18px 20px 24px 26px 28px 30px 32px 36px', //字体大小
+      font_formats:'微软雅黑=Microsoft YaHei,Helvetica Neue;PingFang SC;sans-serif;苹果苹方=PingFang SC,Microsoft YaHei,sans-serif;宋体=simsun;serifsans-serif;Terminal=terminal;monaco;Times New Roman=times new roman;times', //字体
+      file_picker_types: 'image',
+      images_upload_credentials: false,
+      plugins: [
+        'advlist autolink lists link image charmap print preview anchor',
+        'searchreplace visualblocks code fullscreen',
+        'insertdatetime media table paste code help wordcount',
+      ],
+      toolbar: 'fontselect fontsizeselect link lineheight forecolor backcolor bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | image quicklink h2 h3 blockquote table numlist bullist preview fullscreen',
+    };
 
     // 用户名
     const userName = computed(() => {
@@ -214,6 +265,7 @@ export default defineComponent({
         }
       }).then(() => {
         if(topic.value) topic.value.is_collect = true;
+        ElMessage.success('收藏成功');
       }).catch(e => {
         ElMessage.error('请求失败');
         console.error(e);
@@ -229,10 +281,36 @@ export default defineComponent({
         }
       }).then(() => {
         if(topic.value) topic.value.is_collect = false;
+        ElMessage.success('取消收藏成功');
       }).catch(e => {
         ElMessage.error('请求失败');
         console.error(e);
       })
+    };
+    
+    // 表单ref
+    const form = ref<InstanceType<typeof ElForm>>();
+    // 表单值对象
+    const topicReplieForm = reactive({
+      id: undefined,
+      content: '',
+    });
+    // 表单校验规则
+    const rules = reactive({
+      content: [
+        { required: true, message: '请输入内容', trigger: 'blur' },
+      ],
+    });
+    // 回复话题
+    const replieTopic = async (formEl: InstanceType<typeof ElForm> | undefined) => {
+      if (!formEl) return;
+      await formEl.validate((valid, fields) => {
+        if (valid) {
+          console.log(valid, topicReplieForm)
+        } else {
+          console.log('error submit!', fields);
+        }
+      });
     }
 
     return {
@@ -247,6 +325,11 @@ export default defineComponent({
       getTopicTab,
       goBack,
       collectClick,
+      init,
+      form,
+      topicReplieForm,
+      rules,
+      replieTopic,
     }
   },
 })

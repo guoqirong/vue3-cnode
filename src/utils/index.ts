@@ -65,11 +65,12 @@ export const randomNum = (minNum: number, maxNum?: number): number => {
 }
 
 /**
- * 将&lt转成<、&gt转成>
+ * 将&lt转成<、&gt转成>、“或”转成"
  * @param content 需转换的字符串
  * @returns 转换后结果
  */
 export const changeLtGt = (content: string): string => {
-  const str = content.replace(/&lt;/g, '<');
+  let str = content.replace(/“|”/g, '"');
+  str = str.replace(/&lt;/g, '<');
   return str.replace(/&gt;/g, '>');
 };

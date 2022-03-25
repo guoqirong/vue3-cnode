@@ -116,7 +116,12 @@ export default defineComponent({
 
     // 发布话题
     const addTopic = () => {
-      router.push('/add-topic');
+      router.push({
+        path: '/add-topic',
+        query: {
+          listParm: `${activeTypeName.value}|${page.value}|${limit.value}`
+        }
+      });
     };
 
     // 页码、页面显示条数、换页及切换显示条数

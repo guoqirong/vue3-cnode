@@ -54,7 +54,7 @@
       </el-card>
     </div>
     <div class="right-content">
-      <user-info-comp />
+      <user-info-comp :isTopicsRepliesList="false" />
       <client-qr-code-comp />
     </div>
   </div>
@@ -95,6 +95,7 @@ export default defineComponent({
     const router = useRouter();
     // 表单值对象
     const topicForm = reactive({
+      id: undefined,
       title: '',
       tab: '',
       content: '',
@@ -103,7 +104,12 @@ export default defineComponent({
     // 返回
     const goBack = () => {
       if (route.name === 'addTopic') {
-        router.push('/');
+        router.push({
+        name: 'index',
+        params: {
+          listParm: String(route.query.listParm),
+        }
+      });
       } else {
         router.push({
         path: `/detail`,
@@ -179,7 +185,7 @@ export default defineComponent({
         if (valid) {
           setEditData();
         } else {
-          console.log('error submit!', fields, topicForm);
+          console.log('error submit!', fields);
         }
       });
     };
@@ -191,19 +197,21 @@ export default defineComponent({
         url: adornUrl(`/api/v1/topics${route.name === 'addTopic' ? '' : '/update'}`),
         method: 'post',
         data: {
-          ...topicForm,
+          topic_id: topicForm.id,
+          title: topicForm.title,
+          content: topicForm.content,
           tab: 'dev',
           accesstoken: token.value,
         }
       }).then(({ data }) => {
         if (data?.success) {
-          ElMessage.success('发布成功');
+          ElMessage.success(route.name === 'addTopic' ? '发布成功' : '修改成功');
           goBack();
         }
       }).catch(e => {
-        ElMessage.error('发布失败');
+        ElMessage.error(route.name === 'addTopic' ? '发布失败' : '修改失败');
         console.error(e);
-      })
+      });
     };
 
     return {
@@ -213,7 +221,7 @@ export default defineComponent({
       topicForm,
       rules,
       init,
-      topicTypeList: topicTypeList.filter(item => item.key !== 'all'),
+      topicTypeList: topicTypeList.filter(item => !['all', 'good'].includes(item.key)),
       onSubmit,
       IsSubmitLoading,
     };
