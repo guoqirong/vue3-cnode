@@ -30,7 +30,7 @@
         </div>
       </template>
       <template #default>
-        <div class="user">
+        <div class="user" @click="gotoUserDetail">
           <div class="user-img">
             <el-avatar
               shape="square"
@@ -67,7 +67,7 @@
     class="box-card list-card"
     v-if="isTopicsRepliesList && token && userData.recent_replies">
     <template #header>
-      <span class="card-title">我的回复</span>
+      <span class="card-title">我的参与</span>
     </template>
     <div
       v-for="(item, i) in userData.recent_replies"
@@ -135,12 +135,20 @@ export default defineComponent({
         })
       }
     };
+    
+    // 前往登录页
+    const gotoUserDetail = () => {
+      router.push({
+        path: `/user/${userData.value.loginname}`
+      });
+    };
 
     return {
       token,
       loading,
       userData,
       gotoLogin,
+      gotoUserDetail,
     }
   },
 })

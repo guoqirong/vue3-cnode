@@ -67,6 +67,11 @@
             <el-avatar shape="square" :size="40" :src="item.author.avatar_url"></el-avatar>
           </div>
           <div class="replie-title">{{item.author.loginname + '回复了您的话题'}}</div>
+          <div class="replie-up">
+            <div class="icon up-icon"></div>
+            <span v-if="item.ups.length">{{item.ups.length}}</span>
+          </div>
+          <div class="icon replie-icon"></div>
           <div class="replie-desc">{{formatDate(item.create_at, 'yyyy-MM-dd')}}</div>
           <div class="replie-content" v-html="item?.content"></div>
         </div>
@@ -224,13 +229,15 @@ export default defineComponent({
 
     // 返回列表
     const goBack = () => {
-      if(route.query.listParm) {
+      if (route.query.listParm) {
         router.push({
           name: 'index',
           params: {
             listParm: String(route.query.listParm)
           }
         })
+      } else if (route.query.userName) {
+        router.push(`/user/${route.query.userName}`)
       } else {
         router.push('/collect')
       }

@@ -1,4 +1,4 @@
-.collect {
+.user-info {
   width: 90%;
   margin: 10px auto;
   @media only screen and (max-width: 950px) {
@@ -27,6 +27,11 @@
       }
       .el-card__body {
         padding: 0 20px;
+      }
+    }
+    .user-base-info {
+      .el-card__body {
+        padding: 20px;
       }
     }
   }

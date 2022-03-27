@@ -11,7 +11,7 @@
           ></el-page-header>
         </template>
         <span class="edit-topic">
-          <el-skeleton class="edit-skeleton" :loading="false" animated :rows="20">
+          <el-skeleton class="edit-skeleton" :loading="isLoading" animated :rows="20">
             <template #default>
               <el-form
                 ref="form"
@@ -217,6 +217,7 @@ export default defineComponent({
     return {
       goBack,
       route,
+      isLoading,
       form,
       topicForm,
       rules,

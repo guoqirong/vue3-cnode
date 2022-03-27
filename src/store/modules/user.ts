@@ -11,7 +11,7 @@ interface simpleUserDataType {
   avatar_url: string,
 }
 
-interface userDataType {
+export interface userDataType {
   avatar_url: string;
   create_at: string;
   githubUsername: string;

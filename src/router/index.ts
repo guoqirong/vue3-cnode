@@ -41,6 +41,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'collect',
     meta: { requiredLogin: true },
     component: () => import('@/views/collect/index.vue')
+  },
+  {
+    path: '/user/:userName',
+    name: 'userDetail',
+    meta: { requiredLogin: true },
+    component: () => import('@/views/user-detail/index.vue')
   }
 ];
 

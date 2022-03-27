@@ -19,6 +19,7 @@
           v-for="item in list"
           :key="item.id"
           :itemData="item"
+          :isSimpleItem="isSimpleItem"
           @seeDetail="seeDetail"
         ></list-item>
       </div>
@@ -51,6 +52,11 @@ export default defineComponent({
     limit: {
       type: Number,
       default: 20,
+    },
+    // 是否简单列表
+    isSimpleItem: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props, content) {

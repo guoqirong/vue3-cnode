@@ -110,6 +110,7 @@
         .replie-item {
           border-bottom: 1px solid #e5e5e5;
           margin-bottom: 8px;
+          position: relative;
           .replie-user-img {
             margin: 5px;
             width: 40px;
@@ -123,6 +124,36 @@
             font-weight: bold;
             height: 30px;
             line-height: 30px;
+          }
+          .replie-up,
+          .replie-icon {
+            position: absolute;
+            top: 0;
+          }
+          .replie-up {
+            right: 34px;
+            width: auto;
+            > span {
+              display: inline-block;
+              height: 24px;
+              line-height: 24px;
+            }
+          }
+          .up-icon {
+            margin-right: 4px;
+            background: url(~@/assets/svg/ups.svg) no-repeat;
+          }
+          .replie-icon {
+            right: 0;
+            background: url(~@/assets/svg/replies.svg) no-repeat;
+          }
+          .icon {
+            display: inline-block;
+            vertical-align: top;
+            width: 24px;
+            height: 24px;
+            background-size: 100% 100%;
+            cursor: pointer;
           }
           .replie-desc {
             width: calc(100% - 50px);
@@ -144,6 +175,11 @@
         }
         .replies-form {
           margin-top: 16px;
+          .tox-tinymce {
+            .tox-editor-header {
+              margin-top: -2px;
+            }
+          }
           .el-form-item.is-last {
             margin-bottom: 0px;
           }
