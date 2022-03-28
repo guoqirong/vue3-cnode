@@ -68,7 +68,7 @@
           </div>
           <div class="replie-title">{{item.author.loginname + '回复了您的话题'}}</div>
           <div class="replie-up">
-            <div class="icon up-icon"></div>
+            <div class="icon up-icon" @click="likeAndUnlike(item.id)"></div>
             <span v-if="item.ups.length">{{item.ups.length}}</span>
           </div>
           <div class="icon replie-icon"></div>
@@ -271,12 +271,12 @@ export default defineComponent({
           accesstoken: localStorage.getItem('token') || ''
         }
       }).then(() => {
-        if(topic.value) topic.value.is_collect = true;
+        if (topic.value) topic.value.is_collect = true;
         ElMessage.success('收藏成功');
       }).catch(e => {
         ElMessage.error('请求失败');
         console.error(e);
-      })
+      });
     };
     const topicDeCollect = () => {
       collectHttpRequest({
@@ -287,12 +287,39 @@ export default defineComponent({
           accesstoken: localStorage.getItem('token') || ''
         }
       }).then(() => {
-        if(topic.value) topic.value.is_collect = false;
+        if (topic.value) topic.value.is_collect = false;
         ElMessage.success('取消收藏成功');
       }).catch(e => {
         ElMessage.error('请求失败');
         console.error(e);
-      })
+      });
+    };
+    
+    // 为评论点赞和取消点赞
+    const { httpRequest: likeHttpRequest } = useHttpRequest();
+    const likeAndUnlike = (id: number) => {
+      likeHttpRequest({
+        url: adornUrl(`/api/v1/reply/${id}/ups`),
+        method: 'post',
+        data: {
+          accesstoken: localStorage.getItem('token') || ''
+        }
+      }).then(({ data }) => {
+        if (data.action === 'up') {
+          ElMessage.success('点赞成功');
+        } else {
+          ElMessage.success('取消点赞成功');
+        }
+        getData();
+      }).catch(e => {
+        const { data } = e.response;
+        if (data.error_msg) {
+          ElMessage.error(data.error_msg);
+          return;
+        }
+        ElMessage.error('请求失败');
+        console.error(e);
+      });
     };
     
     // 表单ref
@@ -309,16 +336,34 @@ export default defineComponent({
       ],
     });
     // 回复话题
+    const { httpRequest: replieHttpRequest } = useHttpRequest();
     const replieTopic = async (formEl: InstanceType<typeof ElForm> | undefined) => {
       if (!formEl) return;
       await formEl.validate((valid, fields) => {
         if (valid) {
-          console.log(valid, topicReplieForm)
+          replieTopicRequest();
         } else {
           console.log('error submit!', fields);
         }
       });
-    }
+    };
+    const replieTopicRequest = (replyId?: number) => {
+      likeHttpRequest({
+        url: adornUrl(`/api/v1/topic/${topic.value?.id}/replies`),
+        method: 'post',
+        data: {
+          accesstoken: localStorage.getItem('token') || '',
+          content: topicReplieForm.content,
+          reply_id: replyId,
+        }
+      }).then(_ => {
+        topicReplieForm.content = '';
+        getData();
+      }).catch(e => {
+        ElMessage.error('请求失败');
+        console.error(e);
+      });
+    };
 
     return {
       userName,
@@ -332,6 +377,7 @@ export default defineComponent({
       getTopicTab,
       goBack,
       collectClick,
+      likeAndUnlike,
       init,
       form,
       topicReplieForm,

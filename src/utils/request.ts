@@ -43,10 +43,10 @@ const useHttpRequest = (): httpRequestType => {
       console.error('请求失败')
     }
     isLoading.value = false;
-    return response
+    return response;
   }, error => {
     isLoading.value = false;
-    return Promise.reject(error)
+    return Promise.reject(error);
   });
 
   return {
