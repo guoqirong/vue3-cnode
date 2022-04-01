@@ -348,7 +348,7 @@ export default defineComponent({
       });
     };
     const replieTopicRequest = (replyId?: number) => {
-      likeHttpRequest({
+      replieHttpRequest({
         url: adornUrl(`/api/v1/topic/${topic.value?.id}/replies`),
         method: 'post',
         data: {
@@ -356,7 +356,7 @@ export default defineComponent({
           content: topicReplieForm.content,
           reply_id: replyId,
         }
-      }).then(_ => {
+      }).then(() => {
         topicReplieForm.content = '';
         getData();
       }).catch(e => {
