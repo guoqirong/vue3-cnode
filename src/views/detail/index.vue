@@ -71,9 +71,21 @@
             <div class="icon up-icon" @click="likeAndUnlike(item.id)"></div>
             <span v-if="item.ups.length">{{item.ups.length}}</span>
           </div>
-          <div class="icon replie-icon"></div>
+          <div class="icon replie-icon" @click="changeRepliceItemState(i)"></div>
           <div class="replie-desc">{{formatDate(item.create_at, 'yyyy-MM-dd')}}</div>
           <div class="replie-content" v-html="item?.content"></div>
+          <div
+            v-if="item.isReplie"
+            class="replie-edit-wapper"
+          >
+            <editor
+              api-key="mh2f2ffdlr2zzaky3yk52tx8rtxrxnbt1a6p7p7jx96hy70r"
+              :init="init"
+              v-model="item.replieContent"
+            ></editor>
+            <el-button type="primary" @click="replieTopicRequest(item.id, item.replieContent)">回复</el-button>
+            <el-button @click="changeRepliceItemState(i)">取消</el-button>
+          </div>
         </div>
       </el-card>
       <el-card class="box-card">
@@ -136,6 +148,8 @@ interface topicRepliesType {
   create_at: string;
   reply_id: null;
   is_uped: boolean;
+  isReplie: boolean;
+  replieContent: string;
 }
 
 interface topicDetailType {
@@ -215,8 +229,10 @@ export default defineComponent({
         }
       }).then(({data}) => {
         data.data.content = changeLtGt(data.data.content);
-        data.data.replies.forEach((item: { content: string; }) => {
+        data.data.replies.forEach((item: { content: string; isReplie: boolean; replieContent: string; }) => {
           item.content = changeLtGt(item.content);
+          item.isReplie = false;
+          item.replieContent = '';
         });
         topic.value = data.data;
       }).catch(e => {
@@ -347,13 +363,13 @@ export default defineComponent({
         }
       });
     };
-    const replieTopicRequest = (replyId?: number) => {
+    const replieTopicRequest = (replyId?: number, content?: string) => {
       replieHttpRequest({
         url: adornUrl(`/api/v1/topic/${topic.value?.id}/replies`),
         method: 'post',
         data: {
           accesstoken: localStorage.getItem('token') || '',
-          content: topicReplieForm.content,
+          content: content ?? topicReplieForm.content,
           reply_id: replyId,
         }
       }).then(() => {
@@ -363,6 +379,19 @@ export default defineComponent({
         ElMessage.error('请求失败');
         console.error(e);
       });
+    };
+
+    const changeRepliceItemState = (i: number) => {
+      if(topic.value) {
+        const replies = topic.value?.replies;
+        const userName = replies[i].author.loginname;
+        replies[i].isReplie = !replies[i].isReplie;
+        replies[i].replieContent = replies[i].isReplie ? `<div class="markdown-text"><p><a href="/user/${userName}">@${userName}</a>&nbsp;</p></div>` : '';
+        topic.value = {
+          ...topic.value,
+          replies: replies
+        }
+      }
     };
 
     return {
@@ -383,6 +412,8 @@ export default defineComponent({
       topicReplieForm,
       rules,
       replieTopic,
+      changeRepliceItemState,
+      replieTopicRequest,
     }
   },
 })
