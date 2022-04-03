@@ -1,6 +1,6 @@
 import store from '@/store';
 import { userStateType } from '@/store/modules/user';
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -52,7 +52,7 @@ const routes: Array<RouteRecordRaw> = [
 
 const router = createRouter({
   // 处理生产环境github上用的不是根目录的路由问题
-  history: createWebHistory(process.env.NODE_ENV === 'production' ? process.env.BASE_URL + '/vue3-cnode' : process.env.BASE_URL),
+  history: createWebHashHistory(process.env.NODE_ENV === 'production' ? '/vue3-cnode' : process.env.BASE_URL),
   routes,
 });
 

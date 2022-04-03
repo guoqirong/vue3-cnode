@@ -87,7 +87,7 @@ import useHttpRequest from '@/utils/request';
 import { useStore } from 'vuex';
 import { ElEmpty, ElMessage, ElSkeleton } from 'element-plus';
 import { authorType } from '../detail/index.vue';
-import { formatDate } from '@/utils';
+import { changeLtGt, formatDate } from '@/utils';
 import mitt from 'mitt';
 
 interface replyType {
@@ -148,6 +148,12 @@ export default defineComponent({
             mdrender: true
           }
         }).then(({data}) => {
+          data.data.has_read_messages.forEach((item: messagesItemType) => {
+            item.reply.content = changeLtGt(item.reply.content);
+          });
+          data.data.hasnot_read_messages.forEach((item: messagesItemType) => {
+            item.reply.content = changeLtGt(item.reply.content);
+          });
           message.value = data.data;
         }).catch(e => {
           ElMessage.error('请求失败');
@@ -201,4 +207,8 @@ export default defineComponent({
 })
 </script>
 
+
+function item(item: any, arg1: (messagesItemType: any) => void) {
+  throw new Error('Function not implemented.');
+}
 <style lang="scss" src="./index.scss"></style>
