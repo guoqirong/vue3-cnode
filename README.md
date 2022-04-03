@@ -1,5 +1,8 @@
 # vue3-cnode
 
+## Project link
+See [vue3-cnode](https://guoqirong.github.io/vue3-cnode/).
+
 ## Project setup
 ```
 npm install
