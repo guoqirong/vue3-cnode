@@ -1,5 +1,5 @@
 <template>
-  <div class="my-message">
+  <div class="collect">
     <!-- 左侧内容 -->
     <div class="lift-content">
       <el-card class="box-card">

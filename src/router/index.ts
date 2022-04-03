@@ -1,6 +1,6 @@
 import store from '@/store';
 import { userStateType } from '@/store/modules/user';
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -19,6 +19,18 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/detail/index.vue')
   },
   {
+    path: '/add-topic',
+    name: 'addTopic',
+    meta: { requiredLogin: true },
+    component: () => import('@/views/edit-topic/index.vue')
+  },
+  {
+    path: '/edit-topic/:id',
+    name: 'editTopic',
+    meta: { requiredLogin: true },
+    component: () => import('@/views/edit-topic/index.vue')
+  },
+  {
     path: '/message',
     name: 'message',
     meta: { requiredLogin: true },
@@ -29,11 +41,18 @@ const routes: Array<RouteRecordRaw> = [
     name: 'collect',
     meta: { requiredLogin: true },
     component: () => import('@/views/collect/index.vue')
+  },
+  {
+    path: '/user/:userName',
+    name: 'userDetail',
+    meta: { requiredLogin: true },
+    component: () => import('@/views/user-detail/index.vue')
   }
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  // 处理生产环境github上用的不是根目录的路由问题
+  history: createWebHashHistory(process.env.NODE_ENV === 'production' ? '/vue3-cnode' : process.env.BASE_URL),
   routes,
 });
 

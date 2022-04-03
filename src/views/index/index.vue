@@ -3,10 +3,15 @@
     <!-- 左侧内容 -->
     <div class="lift-content">
       <el-card class="box-card">
+        <el-button
+          class="add-topic-btn"
+          type="primary"
+          @click="addTopic"
+        >发布话题</el-button>
         <!-- tab标签 -->
         <el-tabs
           v-model="activeTypeName"
-          class="demo-tabs"
+          class="topic-tabs"
           @tab-click="handleTabClick">
           <el-tab-pane
             v-for="(item, i) in topicTypeList"
@@ -96,7 +101,7 @@ export default defineComponent({
       }).catch((e) => {
         ElMessage.error('请求失败');
         console.error(e);
-      })
+      });
     };
 
     // 类型tab选中态及点击事件
@@ -106,6 +111,16 @@ export default defineComponent({
       activeTypeName.value = tab.paneName;
       getTopicList({
         tab: tab.paneName
+      });
+    };
+
+    // 发布话题
+    const addTopic = () => {
+      router.push({
+        path: '/add-topic',
+        query: {
+          listParm: `${activeTypeName.value}|${page.value}|${limit.value}`
+        }
       });
     };
 
@@ -143,8 +158,8 @@ export default defineComponent({
           id: id,
           listParm: `${activeTypeName.value}|${page.value}|${limit.value}`
         }
-      })
-    }
+      });
+    };
 
     return {
       topicTypeList,
@@ -152,12 +167,13 @@ export default defineComponent({
       listData,
       activeTypeName,
       handleTabClick,
+      addTopic,
       seeDetail,
       page,
       limit,
       handleCurrentChange,
       handleSizeChange,
-    }
+    };
   },
 })
 </script>

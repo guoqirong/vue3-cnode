@@ -11,12 +11,19 @@
         :alt="itemData.author.loginname"
       ></el-avatar>
     </div>
-    <div class="reply-count">
+    <div
+      v-if="!isSimpleItem"
+      class="reply-count">
       <span class="count-of-replies" title="回复数">{{itemData.reply_count}}</span>
       <span>/</span>
       <span class="count-of-visits" title="点击数">{{itemData.visit_count}}</span>
     </div>
-    <div class="topic-tab" :style="{'width': !itemData.top && itemData.tab === 'dev' ? '' : '42px'}">
+    <div
+      v-if="!isSimpleItem"
+      class="topic-tab"
+      :style="{
+        width: !itemData.top && itemData.tab === 'dev' ? '' : '42px'
+      }">
       <el-tag effect="dark" :type="itemData.top ? 'danger' : 'success'">
         {{getTopicTab(itemData.top, itemData.tab)}}
       </el-tag>
@@ -25,11 +32,11 @@
       class="topic-title"
       :title="itemData.title"
       :style="{
-        'width': !itemData.top && itemData.tab === 'dev' ? '' : 'calc(100% - 40px - 42px - 90px - 90px)'
+        width: isSimpleItem ? 'calc(100% - 90px)' : (!itemData.top && itemData.tab === 'dev' ? '' : 'calc(100% - 40px - 42px - 90px - 90px)')
       }"
       v-html="itemData.title"
     ></div>
-    <div class="created-time">{{formatDate(itemData.create_at, 'yyyy-MM-dd')}}</div>
+    <div v-if="!isSimpleItem" class="created-time">{{formatDate(itemData.create_at, 'yyyy-MM-dd')}}</div>
   </div>
 </template>
 
@@ -57,7 +64,12 @@ export interface topicListItemType {
 export default defineComponent({
   props: {
     // 列表项数据
-    itemData: Object as PropType<topicListItemType>
+    itemData: Object as PropType<topicListItemType>,
+    // 是否简单列表
+    isSimpleItem: {
+      type: Boolean,
+      default: false,
+    }
   },
   setup(props) {
     return {
