@@ -1,7 +1,7 @@
 import { topicTypeList } from "@/constant"
 
 /**
- * 日期格式化 gqr
+ * 日期格式化
  * @param {*} dateStr 日期字符串
  * @param {*} fmt 日期格式
  * @returns 格式化后的日期
