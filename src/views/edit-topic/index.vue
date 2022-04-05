@@ -1,6 +1,6 @@
 <template>
   <div class="edit-topic-body">
-    <div class="lift-content">
+    <page-wrapper>
       <el-card class="box-card">
         <!-- 新增、编辑头部信息 -->
         <template #header>
@@ -52,17 +52,18 @@
           </el-skeleton>
         </span>
       </el-card>
-    </div>
-    <div class="right-content">
-      <user-info-comp :isTopicsRepliesList="false" />
-      <client-qr-code-comp />
-    </div>
+      <template #right>
+        <user-info-comp :isTopicsRepliesList="false" />
+        <client-qr-code-comp />
+      </template>
+    </page-wrapper>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, reactive, ref } from 'vue';
 import { ElButton, ElCard, ElForm, ElFormItem, ElMessage, ElPageHeader, ElSelect, ElSkeleton } from 'element-plus';
+import PageWrapper from '@/components/page-wrapper/index.vue';
 import UserInfoComp from '@/components/user-info/index.vue';
 import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
 import Editor from '@tinymce/tinymce-vue';
@@ -82,6 +83,7 @@ export default defineComponent({
     ElSelect,
     ElButton,
     Editor,
+    PageWrapper,
     UserInfoComp,
     ClientQrCodeComp
   },

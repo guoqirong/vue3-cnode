@@ -1,6 +1,6 @@
 <template>
   <div class="detail-body">
-    <div class="lift-content">
+    <page-wrapper>
       <el-card class="box-card">
         <!-- 详情头部信息 -->
         <template #header>
@@ -76,7 +76,7 @@
           <div class="replie-content" v-html="item?.content"></div>
           <div
             v-if="item.isReplie"
-            class="replie-edit-wapper"
+            class="replie-edit-wrapper"
           >
             <editor
               api-key="mh2f2ffdlr2zzaky3yk52tx8rtxrxnbt1a6p7p7jx96hy70r"
@@ -111,20 +111,21 @@
           </el-form-item>
         </el-form>
       </el-card>
-    </div>
-    <div class="right-content">
-      <user-info-comp
-        title="作者"
-        :authorData="topic?.author"
-        :authorLoading="isLoading"
-      />
-      <client-qr-code-comp />
-    </div>
+      <template #right>
+        <user-info-comp
+          title="作者"
+          :authorData="topic?.author"
+          :authorLoading="isLoading"
+        />
+        <client-qr-code-comp />
+      </template>
+    </page-wrapper>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, reactive, ref } from 'vue';
+import PageWrapper from '@/components/page-wrapper/index.vue';
 import UserInfoComp from '@/components/user-info/index.vue';
 import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
 import useHttpRequest from '@/utils/request';
@@ -179,6 +180,7 @@ export default defineComponent({
     ElForm,
     ElFormItem,
     Editor,
+    PageWrapper,
     UserInfoComp,
     ClientQrCodeComp
   },

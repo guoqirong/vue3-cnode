@@ -1,7 +1,7 @@
 <template>
   <div class="my-message">
-    <!-- 左侧内容 -->
-    <div class="lift-content">
+    <page-wrapper>
+      <!-- 左侧内容 -->
       <el-card class="box-card">
         <template #header>
           <span class="card-title">未读信息</span>
@@ -70,12 +70,12 @@
           </el-skeleton>
         </template>
       </el-card>
-    </div>
-    <!-- 右侧内容 -->
-    <div class="right-content">
-      <user-info-comp />
-      <client-qr-code-comp />
-    </div>
+      <!-- 右侧内容 -->
+      <template #right>
+        <user-info-comp />
+        <client-qr-code-comp />
+      </template>
+    </page-wrapper>
   </div>
 </template>
 
