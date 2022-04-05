@@ -1,7 +1,7 @@
 <template>
   <div class="user-info">
-    <!-- 左侧内容 -->
-    <div class="lift-content">
+    <page-wrapper>
+      <!-- 左侧内容 -->
       <el-card class="box-card user-base-info">
         <template #header>
           <span class="card-title">基本信息</span>
@@ -59,16 +59,16 @@
           />
         </div>
       </el-card>
-    </div>
-    <!-- 右侧内容 -->
-    <div class="right-content">
-      <user-info-comp
-        :authorData="userData"
-        :authorLoading="isLoading"
-        :isTopicsRepliesList="false"
-      />
-      <client-qr-code-comp />
-    </div>
+      <!-- 右侧内容 -->
+      <template #right>
+        <user-info-comp
+          :authorData="userData"
+          :authorLoading="isLoading"
+          :isTopicsRepliesList="false"
+        />
+        <client-qr-code-comp />
+      </template>
+    </page-wrapper>
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="collect">
-    <!-- 左侧内容 -->
-    <div class="lift-content">
+    <page-wrapper>
+      <!-- 左侧内容 -->
       <el-card class="box-card">
         <template #header>
           <span class="card-title">我的收藏</span>
@@ -14,17 +14,18 @@
           />
         </div>
       </el-card>
-    </div>
-    <!-- 右侧内容 -->
-    <div class="right-content">
-      <user-info-comp />
-      <client-qr-code-comp />
-    </div>
+      <!-- 右侧内容 -->
+      <template #right>
+        <user-info-comp />
+        <client-qr-code-comp />
+      </template>
+    </page-wrapper>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
+import PageWrapper from '@/components/page-wrapper/index.vue';
 import ListComp from '@/components/list/index.vue';
 import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
 import UserInfoComp from '@/components/user-info/index.vue';
@@ -36,6 +37,7 @@ import router from '@/router';
 
 export default defineComponent({
   components: {
+    PageWrapper,
     ListComp,
     ClientQrCodeComp,
     UserInfoComp

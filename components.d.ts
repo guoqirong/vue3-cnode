@@ -30,6 +30,7 @@ declare module 'vue' {
     Header: typeof import('./src/components/header/index.vue')['default']
     List: typeof import('./src/components/list/index.vue')['default']
     ListItem: typeof import('./src/components/list-item/index.vue')['default']
+    PageWrapper: typeof import('./src/components/page-wrapper/index.vue')['default']
     UserInfo: typeof import('./src/components/user-info/index.vue')['default']
   }
 }
