@@ -5,7 +5,7 @@
   margin: 0 auto;
   background: url('~@/assets/images/login-bg.jpeg') no-repeat;
   padding: 20px 0;
-  background-size: 70% auto;
+  background-size: calc(72% - 10px) auto;
   background-position: 0 center;
   .login-slogan {
     display: inline-block;
@@ -34,7 +34,8 @@
       .login-form {
         min-width: 200px;
         margin: 20px auto;
-        .login-btn,.cencel-btn {
+        .login-btn,
+        .cencel-btn {
           width: 100%;
         }
         .login-btn {
@@ -43,7 +44,6 @@
         .cencel-btn {
           margin-top: 20px;
           margin-left: 0;
-
         }
       }
     }
