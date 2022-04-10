@@ -45,8 +45,6 @@ export default defineComponent({
     watch(token, (newVal) => {
       if (newVal) {
         getUserData(state.user.simpleUserData.loginname);
-      } else {
-        commit('user/updateUserData', {});
       }
     });
     watch(isLoading, (val) => {
