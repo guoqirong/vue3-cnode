@@ -74,18 +74,26 @@
           <div class="icon replie-icon" @click="changeRepliceItemState(i)"></div>
           <div class="replie-desc">{{formatDate(item.create_at, 'yyyy-MM-dd')}}</div>
           <div class="replie-content" v-html="item?.content"></div>
-          <div
+          <el-form
             v-if="item.isReplie"
-            class="replie-edit-wrapper"
+            :ref="(el) => item.formRef = el"
+            class="replies-form replie-edit-wrapper"
+            :model="item"
+            :rules="rules"
+            label-width="0"
           >
-            <editor
-              api-key="mh2f2ffdlr2zzaky3yk52tx8rtxrxnbt1a6p7p7jx96hy70r"
-              :init="init"
-              v-model="item.replieContent"
-            ></editor>
-            <el-button type="primary" @click="replieTopicRequest(item.id, item.replieContent)">回复</el-button>
-            <el-button @click="changeRepliceItemState(i)">取消</el-button>
-          </div>
+            <el-form-item label="" prop="replieContent">
+              <editor
+                api-key="mh2f2ffdlr2zzaky3yk52tx8rtxrxnbt1a6p7p7jx96hy70r"
+                :init="init"
+                v-model="item.replieContent"
+              ></editor>
+            </el-form-item>
+            <el-form-item class="is-last">
+              <el-button type="primary" @click="replieTopic(item.formRef, item.id, item.replieContent)">回复</el-button>
+              <el-button @click="changeRepliceItemState(i)">取消</el-button>
+            </el-form-item>
+          </el-form>
         </div>
       </el-card>
       <el-card class="box-card">
@@ -124,7 +132,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, ref } from 'vue';
+import { computed, defineComponent, reactive, Ref, ref } from 'vue';
 import PageWrapper from '@/components/page-wrapper/index.vue';
 import UserInfoComp from '@/components/user-info/index.vue';
 import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
@@ -151,6 +159,7 @@ interface topicRepliesType {
   is_uped: boolean;
   isReplie: boolean;
   replieContent: string;
+  formRef: Ref<unknown>;
 }
 
 interface topicDetailType {
@@ -231,9 +240,10 @@ export default defineComponent({
         }
       }).then(({data}) => {
         data.data.content = changeLtGt(data.data.content);
-        data.data.replies.forEach((item: { content: string; isReplie: boolean; replieContent: string; }) => {
+        data.data.replies.forEach((item: topicRepliesType) => {
           item.content = changeLtGt(item.content);
           item.isReplie = false;
+          item.formRef = ref<InstanceType<typeof ElForm>>();
           item.replieContent = '';
         });
         topic.value = data.data;
@@ -352,14 +362,17 @@ export default defineComponent({
       content: [
         { required: true, message: '请输入内容', trigger: 'blur' },
       ],
+      replieContent: [
+        { required: true, message: '请输入内容', trigger: 'blur' },
+      ],
     });
     // 回复话题
     const { httpRequest: replieHttpRequest } = useHttpRequest();
-    const replieTopic = async (formEl: InstanceType<typeof ElForm> | undefined) => {
+    const replieTopic = async (formEl: InstanceType<typeof ElForm> | undefined, replyId?: number, content?: string) => {
       if (!formEl) return;
       await formEl.validate((valid, fields) => {
         if (valid) {
-          replieTopicRequest();
+          replieTopicRequest(replyId, content);
         } else {
           console.log('error submit!', fields);
         }
