@@ -52,7 +52,7 @@ const routes: Array<RouteRecordRaw> = [
 
 const router = createRouter({
   // 处理生产环境github上用的不是根目录的路由问题
-  history: createWebHashHistory(process.env.NODE_ENV === 'production' ? '/vue3-cnode' : process.env.BASE_URL),
+  history: createWebHashHistory(process.env.NODE_ENV === 'production' || window.__POWERED_BY_QIANKUN__ ? '/vue3-cnode' : process.env.BASE_URL),
   routes,
 });
 
