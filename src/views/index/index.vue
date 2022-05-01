@@ -59,7 +59,8 @@ import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
 import UserInfoComp from '@/components/user-info/index.vue';
 import { topicTypeList } from '@/constant';
 import { AxiosResponse } from 'axios';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
+import { routerPush } from '@/utils';
 
 interface getTopicListType {
   page?: number;
@@ -79,7 +80,6 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-    const router = useRouter();
     // 列表数据获取
     const { isLoading, adornUrl, httpRequest } = useHttpRequest();
     const listData = ref<topicListItemType[]>([]);
@@ -116,7 +116,7 @@ export default defineComponent({
 
     // 发布话题
     const addTopic = () => {
-      router.push({
+      routerPush({
         path: '/add-topic',
         query: {
           listParm: `${activeTypeName.value}|${page.value}|${limit.value}`
@@ -152,7 +152,7 @@ export default defineComponent({
 
     // 查看详情
     const seeDetail = (id: string) => {
-      router.push({
+      routerPush({
         path: `/detail`,
         query: {
           id: id,

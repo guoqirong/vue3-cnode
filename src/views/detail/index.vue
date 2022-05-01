@@ -137,11 +137,11 @@ import PageWrapper from '@/components/page-wrapper/index.vue';
 import UserInfoComp from '@/components/user-info/index.vue';
 import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
 import useHttpRequest from '@/utils/request';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { ElAvatar, ElButton, ElCard, ElForm, ElFormItem, ElMessage, ElPageHeader, ElSkeleton } from 'element-plus';
 import { Star, StarFilled } from '@element-plus/icons-vue'
-import { changeLtGt, formatDate, getTopicTab } from '@/utils';
+import { changeLtGt, formatDate, getTopicTab, routerPush } from '@/utils';
 import Editor from '@tinymce/tinymce-vue';
 
 export interface authorType {
@@ -195,14 +195,13 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-    const router = useRouter();
     const { state } = useStore();
     
     // 富文本初始配置项
     const init = {
       height: 200, //富文本高度
       width: '100%', //富文本宽度
-      language_url: './tinymce-langs/zh_CN.js', //中文包
+      language_url: (state.grobal.entryUrl ?? '.') + '/tinymce-langs/zh_CN.js', //中文包
       language: 'zh_CN', //中文
       browser_spellcheck: true, // 拼写检查
       branding: false, // 去水印
@@ -258,28 +257,37 @@ export default defineComponent({
     // 返回列表
     const goBack = () => {
       if (route.query.listParm) {
-        router.push({
+        routerPush({
           name: 'index',
           params: {
             listParm: String(route.query.listParm)
           }
         })
       } else if (route.query.userName) {
-        router.push(`/user/${route.query.userName}`)
+        routerPush(`/user/${route.query.userName}`)
       } else {
-        router.push('/collect')
+        routerPush('/collect')
       }
     };
 
     // 修改话题
     const editTopic = () => {
-      router.push({
-        path: `/edit-topic/${topic.value?.id}`,
-        query: {
-          listParm: String(route.query.listParm)
-        }
-      })
-    }
+      if (route.query.userName) {
+        routerPush({
+          path: `/edit-topic/${topic.value?.id}`,
+          query: {
+            userName: route.query.userName
+          }
+        });
+      } else {
+        routerPush({
+          path: `/edit-topic/${topic.value?.id}`,
+          query: {
+            listParm: String(route.query.listParm)
+          }
+        });
+      }
+    };
 
     // 收藏和取消收藏
     const { httpRequest: collectHttpRequest } = useHttpRequest();

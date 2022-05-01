@@ -84,9 +84,10 @@
 </template>
 
 <script lang="ts">
+import { routerPush } from '@/utils';
 import { ElSkeleton, ElSkeletonItem } from 'element-plus';
 import { computed, defineComponent } from 'vue'
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 export default defineComponent({
@@ -110,7 +111,6 @@ export default defineComponent({
   setup(props) {
     const { state } = useStore();
     const route = useRoute();
-    const router = useRouter();
 
     // 登录标识
     const token = computed(() => {
@@ -130,15 +130,15 @@ export default defineComponent({
     // 前往登录页
     const gotoLogin = () => {
       if (route.path !== '/login') {
-        router.push({
+        routerPush({
           path: '/login'
         })
       }
     };
     
-    // 前往登录页
+    // 前往用户详情页
     const gotoUserDetail = () => {
-      router.push({
+      routerPush({
         path: `/user/${userData.value.loginname}`
       });
     };
