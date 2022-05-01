@@ -136,7 +136,7 @@ export default defineComponent({
       }
     };
     
-    // 前往登录页
+    // 前往用户详情页
     const gotoUserDetail = () => {
       router.push({
         path: `/user/${userData.value.loginname}`
