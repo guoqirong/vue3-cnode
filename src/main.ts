@@ -9,6 +9,7 @@ import 'element-plus/theme-chalk/el-message-box.css';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import useEventBus from './utils/eventBus';
 
 // createApp(App)
 // // 全局引入element ui
@@ -23,7 +24,11 @@ async function render(props?: { [key: string]: any; } | undefined) {
   const { container, entry } = props ?? {};
   // 为了避免根id#app与其他DOM冲突，需要限制查找范围
   instance = await createApp(App).use(store).use(router).mount(container ? container.querySelector('#app') : '#app');
+  // 设置父应用请求子应用路径
   store.commit('grobal/updateEntryUrl', entry);
+  // 触发头部消息更新
+  const [ emitter ] = useEventBus();
+  emitter.emit('read-msg');
 }
 
 if (!window.__POWERED_BY_QIANKUN__) {

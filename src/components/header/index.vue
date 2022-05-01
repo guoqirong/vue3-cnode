@@ -45,8 +45,8 @@ import { ElLink, ElBadge } from 'element-plus';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import useHttpRequest from '@/utils/request';
-import { emitter } from '@/views/message/index.vue';
 import { routerPush } from '@/utils';
+import useEventBus from '@/utils/eventBus';
 
 export default defineComponent({
   name: 'HeaderComp',
@@ -76,6 +76,7 @@ export default defineComponent({
     };
     
     // 通过消息模块已读信息更新未读数
+    const [ emitter ] = useEventBus();
     emitter.on('read-msg', () => {
       getMassageCount();
     });
