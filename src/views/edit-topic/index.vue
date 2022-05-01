@@ -107,19 +107,27 @@ export default defineComponent({
     const goBack = () => {
       if (route.name === 'addTopic') {
         router.push({
-        name: 'index',
-        params: {
-          listParm: String(route.query.listParm),
-        }
-      });
+          name: 'index',
+          params: {
+            listParm: String(route.query.listParm),
+          }
+        });
+      } else if (route.query.userName) {
+        router.push({
+          path: `/detail`,
+          query: {
+            id: route.params.id,
+            userName: route.query.userName,
+          }
+        });
       } else {
         router.push({
-        path: `/detail`,
-        query: {
-          id: route.params.id,
-          listParm: route.query.listParm,
-        }
-      });
+          path: `/detail`,
+          query: {
+            id: route.params.id,
+            listParm: route.query.listParm,
+          }
+        });
       }
     };
     

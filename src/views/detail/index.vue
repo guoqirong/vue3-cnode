@@ -273,12 +273,21 @@ export default defineComponent({
 
     // 修改话题
     const editTopic = () => {
-      router.push({
-        path: `/edit-topic/${topic.value?.id}`,
-        query: {
-          listParm: String(route.query.listParm)
-        }
-      })
+      if (route.query.userName) {
+        router.push({
+          path: `/edit-topic/${topic.value?.id}`,
+          query: {
+            userName: route.query.userName
+          }
+        });
+      } else {
+        router.push({
+          path: `/edit-topic/${topic.value?.id}`,
+          query: {
+            listParm: String(route.query.listParm)
+          }
+        });
+      }
     }
 
     // 收藏和取消收藏
