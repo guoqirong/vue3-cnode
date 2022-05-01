@@ -88,7 +88,7 @@ import { useStore } from 'vuex';
 import { ElEmpty, ElMessage, ElSkeleton } from 'element-plus';
 import { authorType } from '../detail/index.vue';
 import { changeLtGt, formatDate } from '@/utils';
-import mitt from 'mitt';
+import useEventBus from '@/utils/eventBus';
 
 interface replyType {
   content: string;
@@ -118,7 +118,6 @@ interface messagesType {
   hasnot_read_messages: messagesItemType[];
 }
 
-export const emitter = mitt();
 
 export default defineComponent({
   components: {
@@ -164,6 +163,7 @@ export default defineComponent({
     getData();
 
     // 标记消息已读
+    const [ emitter ] = useEventBus();
     const { httpRequest: readHttpRequest } = useHttpRequest();
     const readAll = () => {
       readHttpRequest({
