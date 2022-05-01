@@ -38,6 +38,7 @@
 </template>
 
 <script lang="ts">
+import { routerPush } from '@/utils';
 import useHttpRequest from '@/utils/request';
 import { ElButton, ElForm, ElFormItem, ElInput, ElMessage } from 'element-plus';
 import { defineComponent, reactive, ref } from 'vue';
@@ -76,7 +77,7 @@ export default defineComponent({
             localStorage.setItem('token', form.token);
             commit('user/updateToken', form.token);
             commit('user/updateSimpleUserData', data);
-            router.push('/');
+            routerPush('/');
           }).catch(e => {
             ElMessage.error('登录失败');
             console.error(e);

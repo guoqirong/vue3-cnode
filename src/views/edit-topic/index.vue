@@ -68,10 +68,10 @@ import UserInfoComp from '@/components/user-info/index.vue';
 import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
 import Editor from '@tinymce/tinymce-vue';
 import { topicTypeList } from '@/constant';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import useHttpRequest from '@/utils/request';
 import { useStore } from 'vuex';
-import { changeLtGt } from '@/utils';
+import { changeLtGt, routerPush } from '@/utils';
 
 export default defineComponent({
   components: {
@@ -94,7 +94,6 @@ export default defineComponent({
       return state.user.token;
     });
     const route = useRoute();
-    const router = useRouter();
     // 表单值对象
     const topicForm = reactive({
       id: undefined,
@@ -106,20 +105,28 @@ export default defineComponent({
     // 返回
     const goBack = () => {
       if (route.name === 'addTopic') {
-        router.push({
+        routerPush({
         name: 'index',
         params: {
           listParm: String(route.query.listParm),
         }
       });
+      } else if (route.query.userName) {
+        routerPush({
+          path: `/detail`,
+          query: {
+            id: route.params.id,
+            userName: route.query.userName,
+          }
+        });
       } else {
-        router.push({
-        path: `/detail`,
-        query: {
-          id: route.params.id,
-          listParm: route.query.listParm,
-        }
-      });
+        routerPush({
+          path: `/detail`,
+          query: {
+            id: route.params.id,
+            listParm: route.query.listParm,
+          }
+        });
       }
     };
     

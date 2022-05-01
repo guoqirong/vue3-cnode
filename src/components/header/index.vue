@@ -43,9 +43,10 @@
 import { defineComponent, computed, watch, ref } from 'vue';
 import { ElLink, ElBadge } from 'element-plus';
 import { useStore } from 'vuex';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import useHttpRequest from '@/utils/request';
 import { emitter } from '@/views/message/index.vue';
+import { routerPush } from '@/utils';
 
 export default defineComponent({
   name: 'HeaderComp',
@@ -53,7 +54,6 @@ export default defineComponent({
   setup() {
     const { state, commit } = useStore();
     const route = useRoute();
-    const router = useRouter();
     const { adornUrl, httpRequest } = useHttpRequest();
     
     // 获取本地logo图片
@@ -69,7 +69,7 @@ export default defineComponent({
     // 前往首页
     const gotoIndex = () => {
       if (route.path !== '/index') {
-        router.push({
+        routerPush({
           path: '/'
         })
       }
@@ -106,7 +106,7 @@ export default defineComponent({
     // 前往消息列表页面
     const gotoMessage = () => {
       if (route.path !== '/message') {
-        router.push({
+        routerPush({
           path: '/message'
         })
       }
@@ -115,7 +115,7 @@ export default defineComponent({
     // 前往收藏页面
     const gotoCollect = () => {
       if (route.path !== '/collect') {
-        router.push({
+        routerPush({
           path: '/collect'
         })
       }
@@ -124,7 +124,7 @@ export default defineComponent({
     // 前往登录页
     const gotoLogin = () => {
       if (route.path !== '/login') {
-        router.push({
+        routerPush({
           path: '/login'
         })
       }

@@ -79,8 +79,9 @@ import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
 import UserInfoComp from '@/components/user-info/index.vue';
 import useHttpRequest from '@/utils/request';
 import { ElMessage } from 'element-plus';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { userDataType } from '@/store/modules/user';
+import { routerPush } from '@/utils';
 
 export default defineComponent({
   components: {
@@ -90,8 +91,6 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-    const router = useRouter();
-
     // 列表数据获取
     const { isLoading, adornUrl, httpRequest } = useHttpRequest();
     const userData = ref<userDataType>();
@@ -110,7 +109,7 @@ export default defineComponent({
 
     // 查看详情
     const seeDetail = (id: string) => {
-      router.push({
+      routerPush({
         path: `/detail`,
         query: {
           id: id,

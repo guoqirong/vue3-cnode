@@ -1,4 +1,6 @@
 import { topicTypeList } from "@/constant"
+import router, { prefix } from "@/router"
+import { RouteLocationRaw } from "vue-router"
 
 /**
  * 日期格式化
@@ -74,4 +76,21 @@ export const changeLtGt = (content: string): string => {
   str = str.replace(/href="+(\/.?user.?\/|user.?\/)/g, 'href="./#/user/');
   str = str.replace(/&lt;/g, '<');
   return str.replace(/&gt;/g, '>');
+};
+
+/**
+ * 处理qiankun子模块非根目录部署路由问题
+ * @param params 路由参数
+ */
+export const routerPush = (params: RouteLocationRaw): void => {
+  // 解构路由路径
+  const { path } = typeof params === 'string'
+    ? { path: undefined, }
+    : { path: undefined, ...params };
+  // 为 path 加上主应用前缀 prefix
+  const routerParms = typeof params === 'string' ? prefix + params : {
+    ...params,
+    ...(path ? { path: prefix + path } : {})
+  };
+  router.push(routerParms);
 };

@@ -1,49 +1,54 @@
 import store from '@/store';
 import { userStateType } from '@/store/modules/user';
-import { createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
+
+export let prefix = '';
+if (window.__POWERED_BY_QIANKUN__) {
+  prefix = '/vue3-cnode' // /vue3-cnode为主应用的activeRule
+}
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
+    path: prefix + '/',
     name: 'index',
     component: () => import('@/views/index/index.vue')
   },
   {
-    path: '/login',
+    path: prefix + '/login',
     name: 'login',
     component: () => import('@/views/login/index.vue')
   },
   {
-    path: '/detail',
+    path: prefix + '/detail',
     name: 'detail',
     component: () => import('@/views/detail/index.vue')
   },
   {
-    path: '/add-topic',
+    path: prefix + '/add-topic',
     name: 'addTopic',
     meta: { requiredLogin: true },
     component: () => import('@/views/edit-topic/index.vue')
   },
   {
-    path: '/edit-topic/:id',
+    path: prefix + '/edit-topic/:id',
     name: 'editTopic',
     meta: { requiredLogin: true },
     component: () => import('@/views/edit-topic/index.vue')
   },
   {
-    path: '/message',
+    path: prefix + '/message',
     name: 'message',
     meta: { requiredLogin: true },
     component: () => import('@/views/message/index.vue')
   },
   {
-    path: '/collect',
+    path: prefix + '/collect',
     name: 'collect',
     meta: { requiredLogin: true },
     component: () => import('@/views/collect/index.vue')
   },
   {
-    path: '/user/:userName',
+    path: prefix + '/user/:userName',
     name: 'userDetail',
     meta: { requiredLogin: true },
     component: () => import('@/views/user-detail/index.vue')

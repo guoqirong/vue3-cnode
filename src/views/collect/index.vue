@@ -33,7 +33,7 @@ import useHttpRequest from '@/utils/request';
 import { topicListItemType } from '@/components/list-item/index.vue';
 import { ElMessage } from 'element-plus';
 import { useStore } from 'vuex';
-import router from '@/router';
+import { routerPush } from '@/utils';
 
 export default defineComponent({
   components: {
@@ -64,14 +64,14 @@ export default defineComponent({
           console.error(e);
         })
       } else {
-      router.push('/index');
+      routerPush('/index');
       }
     };
     getData();
 
     // 查看详情
     const seeDetail = (id: string) => {
-      router.push({
+      routerPush({
         path: `/detail`,
         query: {
           id: id,
