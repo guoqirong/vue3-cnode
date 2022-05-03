@@ -47,8 +47,8 @@ export function mount(props: {[key: string]: unknown} | undefined): void {
   console.log('[vue] props from main framework', props);
   render(props);
 }
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export async function unmount() {
+
+export function unmount(): void {
   if (instance) {
     instance.$options.unmounted?.();
     instance.$el.innerHTML = '';
