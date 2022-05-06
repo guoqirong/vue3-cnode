@@ -103,6 +103,7 @@ export default defineComponent({
         console.error(e);
       })
     }
+    token.value && getMassageCount();
 
     // 前往消息列表页面
     const gotoMessage = () => {

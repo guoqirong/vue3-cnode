@@ -1,5 +1,5 @@
 import './public-path';
-import { ComponentPublicInstance, createApp } from 'vue';
+import { App as VueApp, createApp } from 'vue';
 // 全局引入element ui
 // import ElementPlus from 'element-plus';
 // import 'element-plus/dist/index.css';
@@ -9,7 +9,7 @@ import 'element-plus/theme-chalk/el-message-box.css';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import useEventBus from './utils/eventBus';
+// import useEventBus from './utils/eventBus';
 
 // createApp(App)
 // // 全局引入element ui
@@ -17,18 +17,19 @@ import useEventBus from './utils/eventBus';
 // .use(store)
 // .use(router)
 // .mount('#app');
-let instance: ComponentPublicInstance | undefined = undefined
+let instance: VueApp | undefined;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function render(props?: { [key: string]: any; } | undefined) {
   const { container, entry } = props ?? {};
   // 为了避免根id#app与其他DOM冲突，需要限制查找范围
-  instance = await createApp(App).use(store).use(router).mount(container ? container.querySelector('#app') : '#app');
+  instance = createApp(App);
+  instance.use(store).use(router).mount(container ? container.querySelector('#app') : '#app');
   // 设置父应用请求子应用路径
   store.commit('grobal/updateEntryUrl', entry);
   // 触发头部消息更新
-  const [ emitter ] = useEventBus();
-  emitter.emit('read-msg');
+  // const [ emitter ] = useEventBus();
+  // emitter.emit('read-msg');
 }
 
 if (!window.__POWERED_BY_QIANKUN__) {
@@ -50,8 +51,11 @@ export function mount(props: {[key: string]: unknown} | undefined): void {
 
 export function unmount(): void {
   if (instance) {
-    instance.$options.unmounted?.();
-    instance.$el.innerHTML = '';
+    console.log('[vue] vue app unmount')
+    // 清除父应用请求子应用路径
+    store.commit('grobal/updateEntryUrl', '');
+    instance.unmount();
+    instance._instance = null;
     instance = undefined;
   }
 }

@@ -61,6 +61,7 @@ export default defineComponent({
         console.error(e)
       })
     };
+    token.value && getUserData(state.user.simpleUserData.loginname);
 
     onMounted(() => {
       // 获取本地登录态
