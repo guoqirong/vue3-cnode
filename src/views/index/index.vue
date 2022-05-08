@@ -148,7 +148,6 @@ export default defineComponent({
       page.value = Number(pageNum);
       limit.value = Number(limitNum);
     }
-    console.log(111)
     getTopicList({});
 
     // 查看详情

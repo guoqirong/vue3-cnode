@@ -10,7 +10,6 @@
   "dependencies": {
     "@tinymce/tinymce-vue": "^4.0.7",
     "axios": "^0.26.0",
-    "compression-webpack-plugin": "^5.0.1",
     "element-plus": "^2.0.2",
     "mitt": "^3.0.0",
     "vue": "^3.0.0",
@@ -27,6 +26,7 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-typescript": "^7.0.0",
+    "compression-webpack-plugin": "^5.0.1",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
     "sass": "^1.26.5",
