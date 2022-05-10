@@ -85,7 +85,7 @@ import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
 import UserInfoComp from '@/components/user-info/index.vue';
 import useHttpRequest from '@/utils/request';
 import { useStore } from 'vuex';
-import { ElEmpty, ElMessage, ElSkeleton } from 'element-plus';
+import { ElMessage } from 'element-plus';
 import { authorType } from '../detail/index.vue';
 import { changeLtGt, formatDate } from '@/utils';
 import useEventBus from '@/utils/eventBus';
@@ -121,8 +121,6 @@ interface messagesType {
 
 export default defineComponent({
   components: {
-    ElSkeleton,
-    ElEmpty,
     ClientQrCodeComp,
     UserInfoComp
   },

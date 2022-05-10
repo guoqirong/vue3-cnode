@@ -40,13 +40,12 @@
 <script lang="ts">
 import { routerPush } from '@/utils';
 import useHttpRequest from '@/utils/request';
-import { ElButton, ElForm, ElFormItem, ElInput, ElMessage } from 'element-plus';
+import { ElForm, ElMessage } from 'element-plus';
 import { defineComponent, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 export default defineComponent({
-  components: { ElForm, ElFormItem, ElInput, ElButton },
   setup() {
     const { isLoading, adornUrl, httpRequest } = useHttpRequest();
     const { commit } = useStore();

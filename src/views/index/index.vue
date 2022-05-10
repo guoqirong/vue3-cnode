@@ -51,7 +51,7 @@
 
 <script lang="ts">
 import useHttpRequest, { resDataType } from '@/utils/request';
-import { ElCard, ElMessage, ElTabPane, ElTabs } from 'element-plus';
+import { ElMessage } from 'element-plus';
 import { defineComponent, ref } from 'vue';
 import { topicListItemType } from '@/components/list-item/index.vue';
 import ListComp from '@/components/list/index.vue';
@@ -71,9 +71,6 @@ interface getTopicListType {
 
 export default defineComponent({
   components: {
-    ElCard,
-    ElTabs,
-    ElTabPane,
     ListComp,
     ClientQrCodeComp,
     UserInfoComp

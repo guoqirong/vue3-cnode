@@ -19,12 +19,10 @@
 </template>
 
 <script lang="ts">
-import { ElCard, ElImage, ElLink } from 'element-plus';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'ClientQrCodeComp',
-  components: { ElCard, ElImage, ElLink }
 })
 </script>
 

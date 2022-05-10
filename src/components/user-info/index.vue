@@ -85,14 +85,12 @@
 
 <script lang="ts">
 import { routerPush } from '@/utils';
-import { ElSkeleton, ElSkeletonItem } from 'element-plus';
 import { computed, defineComponent } from 'vue'
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'UserInfoComp',
-  components: { ElSkeleton, ElSkeletonItem },
   props: {
     title: {
       type: String,
