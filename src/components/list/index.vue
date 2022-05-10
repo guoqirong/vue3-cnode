@@ -31,12 +31,11 @@
 <script lang="ts">
 import { defineComponent, PropType, ref, watch } from 'vue';
 import ListItem, { topicListItemType } from '@/components/list-item/index.vue';
-import { ElEmpty, ElSkeleton } from 'element-plus';
 import { randomNum } from '@/utils';
 
 export default defineComponent({
   name: 'ListComp',
-  components: { ListItem, ElSkeleton, ElEmpty },
+  components: { ListItem },
   props: {
     // 列表数据
     listData: {

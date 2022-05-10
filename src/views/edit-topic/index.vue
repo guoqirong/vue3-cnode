@@ -62,7 +62,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, ref } from 'vue';
-import { ElButton, ElCard, ElForm, ElFormItem, ElMessage, ElPageHeader, ElSelect, ElSkeleton } from 'element-plus';
+import { ElForm, ElMessage } from 'element-plus';
 import PageWrapper from '@/components/page-wrapper/index.vue';
 import UserInfoComp from '@/components/user-info/index.vue';
 import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
@@ -75,13 +75,6 @@ import { changeLtGt } from '@/utils';
 
 export default defineComponent({
   components: {
-    ElCard,
-    ElPageHeader,
-    ElSkeleton,
-    ElForm,
-    ElFormItem,
-    ElSelect,
-    ElButton,
     Editor,
     PageWrapper,
     UserInfoComp,

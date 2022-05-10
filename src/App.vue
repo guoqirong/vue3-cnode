@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref, watch } from 'vue';
-import { ElButton, ElConfigProvider, ElMessage, ElScrollbar } from 'element-plus';
+import { ElMessage, ElScrollbar } from 'element-plus';
 import { CaretTop } from '@element-plus/icons-vue'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn';
 import HeaderComp from '@/components/header/index.vue';
@@ -32,7 +32,7 @@ import { useStore } from 'vuex';
 import useHttpRequest from './utils/request';
 
 export default defineComponent({
-  components: { HeaderComp, FooterComp, ElConfigProvider, ElScrollbar, ElButton },
+  components: { HeaderComp, FooterComp },
   setup() {
     const { isLoading, adornUrl, httpRequest } = useHttpRequest();
     const { state, commit } = useStore();

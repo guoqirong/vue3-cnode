@@ -41,7 +41,6 @@
 
 <script lang="ts">
 import { defineComponent, computed, watch, ref } from 'vue';
-import { ElLink, ElBadge } from 'element-plus';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import useHttpRequest from '@/utils/request';
@@ -49,7 +48,6 @@ import { emitter } from '@/views/message/index.vue';
 
 export default defineComponent({
   name: 'HeaderComp',
-  components: { ElLink, ElBadge },
   setup() {
     const { state, commit } = useStore();
     const route = useRoute();

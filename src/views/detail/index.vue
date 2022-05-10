@@ -139,7 +139,7 @@ import ClientQrCodeComp from '@/components/client-qr-code/index.vue';
 import useHttpRequest from '@/utils/request';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { ElAvatar, ElButton, ElCard, ElForm, ElFormItem, ElMessage, ElPageHeader, ElSkeleton } from 'element-plus';
+import { ElForm, ElMessage } from 'element-plus';
 import { Star, StarFilled } from '@element-plus/icons-vue'
 import { changeLtGt, formatDate, getTopicTab } from '@/utils';
 import Editor from '@tinymce/tinymce-vue';
@@ -181,13 +181,6 @@ interface topicDetailType {
 
 export default defineComponent({
   components: {
-    ElCard,
-    ElPageHeader,
-    ElButton,
-    ElAvatar,
-    ElSkeleton,
-    ElForm,
-    ElFormItem,
     Editor,
     PageWrapper,
     UserInfoComp,
@@ -280,13 +273,15 @@ export default defineComponent({
             userName: route.query.userName
           }
         });
-      } else {
+      } else if (route.query.listParm) {
         router.push({
           path: `/edit-topic/${topic.value?.id}`,
           query: {
             listParm: String(route.query.listParm)
           }
         });
+      } else {
+        router.push(`/edit-topic/${topic.value?.id}`);
       }
     }
 
